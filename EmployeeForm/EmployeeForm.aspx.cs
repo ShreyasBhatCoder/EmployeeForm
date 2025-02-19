@@ -80,33 +80,7 @@ namespace EmployeeForm
             //    < asp:TableCell ><button class="btn btn-secondary" runat="server">Delete</button></asp:TableCell>
             //</asp:TableRow>
 
-            var table = new Table();
-            var Headers = new TableHeaderRow();
-            Headers.TableSection = TableRowSection.TableHeader;
-
-            Headers.Cells.Add(new TableHeaderCell() { Text = "Name" });
-            Headers.Cells.Add(new TableHeaderCell() { Text = "Mobile" });
-            Headers.Cells.Add(new TableHeaderCell() { Text = "Email" });
-            Headers.Cells.Add(new TableHeaderCell() { Text = "Date of Birth" });
-            Headers.Cells.Add(new TableHeaderCell() { Text = "Designation" });
-            Headers.Cells.Add(new TableHeaderCell());
-
-            table.Rows.Add(Headers);
-
-            var tableRow1 = new TableRow();
-
-            tableRow1.Cells.Add(new TableCell() { Text = "Shreyas", Attributes = { ["data-label"] = "Name" } });
-            tableRow1.Cells.Add(new TableCell() { Text = "9820819316", Attributes = { ["data-label"] = "Mobile" } });
-            tableRow1.Cells.Add(new TableCell() { Text = "shreyas@example.com", Attributes = { ["data-label"] = "Email" } });
-            tableRow1.Cells.Add(new TableCell() { Text = "20-09-2002", Attributes = { ["data-label"] = "Date of Birth" } });
-            tableRow1.Cells.Add(new TableCell() { Text = "CSE", Attributes = { ["data-label"] = "Designation" } });
-            tableRow1.Cells.Add(new TableCell() { Text = "<button class=\"btn btn-secondary\" runat=\"server\">Delete</button>" });
-
-            table.Rows.Add(tableRow1);
-
             
-
-            EmpTable.Controls.Add(table);
         }
     }
 }

@@ -18,13 +18,36 @@ namespace EmployeeForm
 
         public static Table Fetch(SqlConnection dbConnStr, string name = null)
         {
-            Table employees = new Table();
+            Table table = new Table();
+            TableHeaderRow Headers = new TableHeaderRow();
+            Headers.TableSection = TableRowSection.TableHeader;
+
+            Headers.Cells.Add(new TableHeaderCell() { Text = "Name" });
+            Headers.Cells.Add(new TableHeaderCell() { Text = "Mobile" });
+            Headers.Cells.Add(new TableHeaderCell() { Text = "Email" });
+            Headers.Cells.Add(new TableHeaderCell() { Text = "Date of Birth" });
+            Headers.Cells.Add(new TableHeaderCell() { Text = "Designation" });
+            Headers.Cells.Add(new TableHeaderCell());
+
+            table.Rows.Add(Headers);
+
+
             using (SqlCommand command = new SqlCommand("exec usp_Delete_Employee @name", dbConnStr))
             {
+                //var tableRow1 = new TableRow();
+
+                //tableRow1.Cells.Add(new TableCell() { Text = "Shreyas", Attributes = { ["data-label"] = "Name" } });
+                //tableRow1.Cells.Add(new TableCell() { Text = "9820819316", Attributes = { ["data-label"] = "Mobile" } });
+                //tableRow1.Cells.Add(new TableCell() { Text = "shreyas@example.com", Attributes = { ["data-label"] = "Email" } });
+                //tableRow1.Cells.Add(new TableCell() { Text = "20-09-2002", Attributes = { ["data-label"] = "Date of Birth" } });
+                //tableRow1.Cells.Add(new TableCell() { Text = "CSE", Attributes = { ["data-label"] = "Designation" } });
+                //tableRow1.Cells.Add(new TableCell() { Text = "<button class=\"btn btn-secondary\" runat=\"server\">Delete</button>" });
+
+                //table.Rows.Add(tableRow1);
 
             }
 
-            throw new NotImplementedException();
+            return table;
         }
         public void Delete(SqlConnection dbConnStr)
         {
