@@ -1,0 +1,207 @@
+﻿#formDiv {
+    min-width: 30%;
+    position: absolute;
+    top: 40px;
+    background: white;
+    height: 59%;
+    border: 1px solid black;
+    left: 50%;
+    transform: translateX(-50%);
+}
+
+#form {
+    margin: 20px 60px 30px;
+    padding: 12px;
+}
+
+#form1 {
+    height: 580px;
+}
+
+body {
+    background: #3d4143;
+}
+
+p {
+    font-size: 30px;
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    position: relative;
+    left: 30px;
+    top: 20px;
+    margin: 0;
+    color: #3d4143;
+}
+
+.btn-group {
+    margin: 10px 80px 0px;
+    display: flex;
+}
+
+.EmployeeField {
+    padding: 10px;
+}
+
+hr {
+    color: white;
+}
+
+table {
+    width: 60%;
+    background: white;
+}
+
+th, td {
+    border: 1px solid black;
+    border-collapse: collapse;
+    padding: 3px;
+}
+
+
+th {
+    text-align: center;
+}
+
+tr:hover {
+    background-color: gray;
+    transition: 0.3s;
+    color: white;
+}
+
+.Fetch {
+    margin: 20px 50px 50px 50px;
+    padding: 5px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+#FetchEmp {
+    padding: 5px;
+    font-size: 14px;
+    width: 100%;
+    border: 1px solid #ccc;
+}
+
+#EmpTable {
+    overflow-y: auto;
+}
+
+button[value="Delete"] {
+    text-align: center;
+}
+
+
+/* Mobile phones */
+@media only screen and (max-width: 550px) {
+    table,
+    thead,
+    tbody,
+    tr,
+    th,
+    td {
+        display: block;
+    }
+
+    table {
+        width: 100%;
+    }
+
+     thead tr {
+        display: none;
+     }
+
+    tr {
+        margin-bottom: 20px;
+        border: 1px solid black;
+    }
+
+    td {
+        border: none;
+        position: relative;
+        padding-left: 50%;
+    }
+
+    
+
+        td:before {
+            position: absolute;
+            left: 6px;
+            content: attr(data-label);
+            font-weight: bold;
+        }
+
+
+    #formDiv {
+        width: 100%;
+        left: 0;
+        transform: none;
+    }
+
+    .btn-group {
+        margin: 10px 35px 0px;
+    }
+
+    .Fetch {
+        margin: 20px 0px 50px 0px;
+        padding: 5px;
+    }
+
+    #FetchEmp {
+        width: 100%;
+    }
+    
+}
+
+/* Tablets */
+@media only screen and (min-width: 551px) and (max-width: 700px) {
+    #formDiv {
+        width: 80%;
+        left: 10%;
+        transform: none;
+    }
+
+    .btn-group {
+        margin: 10px -10px 0px;
+    }
+
+    .Fetch {
+        margin: 20px 0px 50px 0px;
+    }
+}
+
+/* Small desktop screens */
+@media only screen and (min-width: 701px) and (max-width: 900px) {
+    #formDiv {
+        width: 65%;
+        left: 17%;
+        transform: none; 
+    }
+
+    .btn-group {
+        margin: 10px 35px 0px;
+    }
+
+    .Fetch {
+        margin: 20px 0px 50px 0px;
+    }
+
+}
+
+/* Medium desktop screens */
+@media only screen and (min-width: 901px) and (max-width: 1100px) {
+    #formDiv {
+        width: 50%;
+        left: 23%;
+        transform: none; 
+    }
+
+    .btn-group {
+        margin: 10px 35px 0px;
+    }
+
+    .Fetch {
+        margin: 20px 0px 50px 0px;
+    }
+
+}
+
