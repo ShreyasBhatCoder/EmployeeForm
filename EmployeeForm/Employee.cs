@@ -1,11 +1,12 @@
-﻿using System;
+﻿using Microsoft.Data.SqlClient;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Web;
 
 namespace EmployeeForm
 {
-    public class Employee
+    public class Employee : EmployeeAPI
     {
         private string _name;
         private long _mobile;
@@ -42,5 +43,6 @@ namespace EmployeeForm
             get { return _designation; }
             set { _designation = value; }
         }
+
     }
 }

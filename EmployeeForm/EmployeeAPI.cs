@@ -1,22 +1,22 @@
 ﻿using Dapper;
 using System;
 using System.Collections.Generic;
-using System.Data.SqlClient;
+using Microsoft.Data.SqlClient;
 using System.Linq;
 using System.Web;
 using System.Web.UI.WebControls;
 
 namespace EmployeeForm
 {
-    internal class EmployeeAPI : Employee
+    public class EmployeeAPI
     {
-        public void Insert(SqlConnection dbConnStr)
+        public void Insert(Employee emp, SqlConnection dbConnStr)
         {
-            dbConnStr.Execute("usp_Insert_Employee @this.Name, cast(@this.Mobile as bigint), @this.Email, cast(@this.DOB as date), @this.Designation");
+            dbConnStr.Execute($"exec usp_Insert_Employee '{emp.Name}', {emp.Mobile}, '{emp.Email}', '{emp.DOB}', '{emp.Designation}'");
         }
 
 
-        public static Table Fetch(SqlConnection dbConnStr, string name = null)
+        public Table Fetch(SqlConnection dbConnStr, string name = null)
         {
             Table table = new Table();
             TableHeaderRow Headers = new TableHeaderRow();
@@ -31,30 +31,38 @@ namespace EmployeeForm
 
             table.Rows.Add(Headers);
 
+  
 
-            using (SqlCommand command = new SqlCommand("exec usp_Delete_Employee @name", dbConnStr))
+            using (SqlCommand command = new SqlCommand($"exec dbo.usp_Get_Employee {name}", dbConnStr))
             {
-                //var tableRow1 = new TableRow();
+                SqlDataReader read = command.ExecuteReader();
+                while(read.Read())
+                {
+                    var tableRow = new TableRow();
+                    tableRow.Cells.Add(new TableCell() { Text = (string)read[0], Attributes = { ["data-label"] = "Name" } });
+                    tableRow.Cells.Add(new TableCell() { Text = read[1].ToString(), Attributes = { ["data-label"] = "Mobile" } });
+                    tableRow.Cells.Add(new TableCell() { Text = (string)read[2], Attributes = { ["data-label"] = "Email" } });
+                    tableRow.Cells.Add(new TableCell() { Text = Convert.ToDateTime(read[3]).ToString("dd-MM-yyyy"), Attributes = { ["data-label"] = "Date of Birth" } });
+                    tableRow.Cells.Add(new TableCell() { Text = (string)read[4], Attributes = { ["data-label"] = "Designation" } });
+                    tableRow.Cells.Add(new TableCell() { Text = "<button class=\"btn btn-secondary\" runat=\"server\" onserverclick=\"Delete_Click\">Delete</button>" });
 
-                //tableRow1.Cells.Add(new TableCell() { Text = "Shreyas", Attributes = { ["data-label"] = "Name" } });
-                //tableRow1.Cells.Add(new TableCell() { Text = "9820819316", Attributes = { ["data-label"] = "Mobile" } });
-                //tableRow1.Cells.Add(new TableCell() { Text = "shreyas@example.com", Attributes = { ["data-label"] = "Email" } });
-                //tableRow1.Cells.Add(new TableCell() { Text = "20-09-2002", Attributes = { ["data-label"] = "Date of Birth" } });
-                //tableRow1.Cells.Add(new TableCell() { Text = "CSE", Attributes = { ["data-label"] = "Designation" } });
-                //tableRow1.Cells.Add(new TableCell() { Text = "<button class=\"btn btn-secondary\" runat=\"server\">Delete</button>" });
-
-                //table.Rows.Add(tableRow1);
+                    table.Rows.Add(tableRow);
+                }
 
             }
 
             return table;
         }
-        public void Delete(SqlConnection dbConnStr)
+        public Table Delete(SqlConnection dbConnStr, string name)
         {
-            using(SqlCommand command = new SqlCommand("exec usp_Delete_Employee @this.Name", dbConnStr))
-            {
+            dbConnStr.Open();
 
-            }
+            dbConnStr.Execute($"exec dbo.usp_Delete_Employee '{name}'");
+            Table table = Fetch(dbConnStr);
+
+            dbConnStr.Close();
+
+            return table;
         }
     }
 }

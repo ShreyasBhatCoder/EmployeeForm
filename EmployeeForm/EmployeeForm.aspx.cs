@@ -14,73 +14,107 @@ namespace EmployeeForm
     {
         protected void Page_Load(object sender, EventArgs e)
         {
-            AddEmployees();
+            
         }
 
         protected void Submit_Click(object sender, EventArgs er)
         {
-
+            Table empTable;
+            ConnectionParams connection = new ConnectionParams("Employee");
+            Employee employee = new Employee
+            {
+                Name = TextName.Text,
+                Mobile = Convert.ToInt64(TextMobile.Text),
+                Email = TextEmail.Text,
+                DOB = TextDOB.Text,
+                Designation = TextDesignation.Text
+            };
             try
             {
-                Connection db = new Connection();
-                SqlConnection conn = new SqlConnection(db.ConnectTo("EmployeeDB"));
-                conn.Open();
+                connection.conn.Open();
 
-                //ADO connection
+                connection.api.Insert(employee, connection.conn);
 
-                if (IsPostBack)
-                {
-                    
-                }
-            }
-            catch (Exception e)
+                ResetFields();
+
+
+            } catch(Exception e)
             {
                 if(IsPostBack)
                 {
+                    string errorMsg = HttpUtility.JavaScriptStringEncode(e.Message);
                     string script = $$"""
-                        document.getElementsByClassName('modal-body')[0].innerHTML = '{{e.Message}}';
-                        (new bootstrap.Modal(document.getElementById('staticBackdrop'))).show();
-                    """;
+                            document.getElementsByClassName('modal-body')[0].innerHTML = '{{errorMsg}}';
+                            (new bootstrap.Modal(document.getElementById('staticBackdrop'))).show();
+                            console.log('{{errorMsg}}');
+                        """;
                     ScriptManager.RegisterStartupScript(this, this.GetType(), Guid.NewGuid().ToString(), script, true);
                 }
             }
+            empTable = connection.api.Fetch(connection.conn);
+            EmpTable.Controls.Add(empTable);
+            connection.conn.Close();
+        }
+
+        protected void Reset_Click(object sender, EventArgs e)
+        {
+            ResetFields();
+        }
+        protected void Fetch_Click(object sender, EventArgs e)
+        {
+            EmpTable.Controls.Clear();
+            ConnectionParams connection = new ConnectionParams("Employee"); 
+            try
+            {
+                connection.conn.Open();
+
+                Table newTable = connection.api.Fetch(connection.conn, FetchEmp.Text);
+
+                EmpTable.Controls.Add(newTable);
+
+                connection.conn.Close();
+            }
+            catch (Exception ex)
+            {
+                if (IsPostBack)
+                {
+                    string errorMsg = HttpUtility.JavaScriptStringEncode(ex.Message);
+                    string script = $$"""
+                            document.getElementsByClassName('modal-body')[0].innerHTML = '{{errorMsg}}';
+                            (new bootstrap.Modal(document.getElementById('staticBackdrop'))).show();
+                            console.log('{{errorMsg}}');
+                        """;
+                    ScriptManager.RegisterStartupScript(this, this.GetType(), Guid.NewGuid().ToString(), script, true);
+
+                }
+            }
+        }
+
+        protected void Delete_Click(object sender, EventArgs e)
+        {
+            EmpTable.Controls.Clear();
+
+            ConnectionParams connection = new ConnectionParams("Employee");
+
+            connection.conn.Open();
+
+            //Table newTable = connection.api.Delete(, connection.conn);
+
+            //EmpTable.Controls.Add(newTable);
+
+            connection.conn.Close();
 
 
         }
 
-        protected void Reset_Click(object sender, EventArgs e)
+        protected void ResetFields()
         {
             TextName.Text = "";
             TextMobile.Text = "";
             TextEmail.Text = "";
             TextDOB.Text = "";
             TextDesignation.Text = "";
-        }
-        protected void Fetch_Click(object sender, EventArgs e)
-        {
-
-        }
-
-        protected void AddEmployees()
-        {
-            //< asp:TableHeaderRow >
-            //    < asp:TableHeaderCell > Name </ asp:TableHeaderCell >
-            //    < asp:TableHeaderCell > Mobile </ asp:TableHeaderCell >
-            //    < asp:TableHeaderCell > Email </ asp:TableHeaderCell >
-            //    < asp:TableHeaderCell > Date of Birth</ asp:TableHeaderCell >
-            //    < asp:TableHeaderCell > Designation </ asp:TableHeaderCell >
-            //    < asp:TableHeaderCell ></ asp:TableHeaderCell >
-            //</ asp:TableHeaderRow >
-            //< asp:TableRow >
-            //    < asp:TableCell > Shreyas </ asp:TableCell >
-            //    < asp:TableCell > Shreyas </ asp:TableCell >
-            //    < asp:TableCell > Shreyas </ asp:TableCell >
-            //    < asp:TableCell > Shreyas </ asp:TableCell >
-            //    < asp:TableCell > Shreyas </ asp:TableCell >
-            //    < asp:TableCell ><button class="btn btn-secondary" runat="server">Delete</button></asp:TableCell>
-            //</asp:TableRow>
-
-            
+            FetchEmp.Text = "";
         }
     }
 }

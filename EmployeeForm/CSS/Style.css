@@ -48,6 +48,8 @@ hr {
 table {
     width: 60%;
     background: white;
+    position: absolute;
+    left: 20%;
 }
 
 th, td {
@@ -56,6 +58,9 @@ th, td {
     padding: 3px;
 }
 
+td:last-child {
+    text-align: center;
+}
 
 th {
     text-align: center;
@@ -86,9 +91,6 @@ tr:hover {
     overflow-y: auto;
 }
 
-button[value="Delete"] {
-    text-align: center;
-}
 
 
 /* Mobile phones */
@@ -104,6 +106,7 @@ button[value="Delete"] {
 
     table {
         width: 100%;
+        position: unset;
     }
 
      thead tr {
@@ -120,16 +123,17 @@ button[value="Delete"] {
         position: relative;
         padding-left: 50%;
     }
-
-    
-
-        td:before {
-            position: absolute;
-            left: 6px;
-            content: attr(data-label);
-            font-weight: bold;
-        }
-
+    td:last-child {
+        padding: 5px;
+        text-align: center;
+        padding-left: 0;
+    }
+    td:before {
+        position: absolute;
+        left: 6px;
+        content: attr(data-label);
+        font-weight: bold;
+    }
 
     #formDiv {
         width: 100%;
@@ -159,6 +163,10 @@ button[value="Delete"] {
         left: 10%;
         transform: none;
     }
+    table {
+        width: 100%;
+        position: unset;
+    }
 
     .btn-group {
         margin: 10px -10px 0px;
@@ -177,6 +185,10 @@ button[value="Delete"] {
         transform: none; 
     }
 
+    table {
+        width: 100%;
+        position: unset;
+    }
     .btn-group {
         margin: 10px 35px 0px;
     }
@@ -193,6 +205,11 @@ button[value="Delete"] {
         width: 50%;
         left: 23%;
         transform: none; 
+    }
+
+    table {
+        width: 100%;
+        position: unset;
     }
 
     .btn-group {

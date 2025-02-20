@@ -1,7 +1,9 @@
-﻿const form = document.getElementById("form1");
+﻿//const form = document.getElementById("form1");
 const inputs = form.querySelectorAll("input");
 const modalBody = document.getElementsByClassName("modal-body")[0];
-
+const fetchBtn = document.getElementById("FetchBtn");
+const submit = document.getElementById("Submit");
+const reset = document.getElementById("Reset");
 
 inputs.forEach(function(input) {
     input.addEventListener("focus", function() {
@@ -17,7 +19,7 @@ inputs.forEach(function(input) {
     });
 });
 
-form.addEventListener("submit", function (event) {
+submit.addEventListener("click", function (event) {
     var isValid = true;
     inputs.forEach(function (input) {
         if (input.checkValidity()) {
@@ -34,8 +36,15 @@ form.addEventListener("submit", function (event) {
     }
 });
 
-form.addEventListener("reset", function(event) {
+reset.addEventListener("click", function(event) {
     inputs.forEach(function (input) {
         input.classList.remove("is-valid", "is-invalid");
     });
 });
+
+fetchBtn.addEventListener("click", function (event) {
+    form.classList.remove("needs-validation");
+    inputs.forEach(function (input) {
+        input.classList.remove("is-invalid");
+    });
+})
