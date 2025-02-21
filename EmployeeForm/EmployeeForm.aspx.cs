@@ -108,7 +108,6 @@ namespace EmployeeForm
         {
             Button deleteButton = (Button)sender;
 
-
             ConnectionParams connection = new ConnectionParams("Employee");
 
             connection.conn.Open();
