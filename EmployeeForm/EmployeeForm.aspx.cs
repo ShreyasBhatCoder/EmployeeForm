@@ -14,7 +14,20 @@ namespace EmployeeForm
     {
         protected void Page_Load(object sender, EventArgs e)
         {
-            
+
+            if (IsPostBack)
+            {
+                EmpTable.Controls.Clear();
+                ConnectionParams connection = new ConnectionParams("Employee");
+
+                connection.conn.Open();
+
+
+                Table newTable = connection.api.Fetch(connection.conn);
+                EmpTable.Controls.Add(newTable);
+
+                connection.conn.Close();
+            }
         }
 
         protected void Submit_Click(object sender, EventArgs er)
@@ -37,6 +50,11 @@ namespace EmployeeForm
 
                 ResetFields();
 
+                EmpTable.Controls.Clear();
+                empTable = connection.api.Fetch(connection.conn);
+                EmpTable.Controls.Add(empTable);
+                connection.conn.Close();
+
 
             } catch(Exception e)
             {
@@ -51,9 +69,6 @@ namespace EmployeeForm
                     ScriptManager.RegisterStartupScript(this, this.GetType(), Guid.NewGuid().ToString(), script, true);
                 }
             }
-            empTable = connection.api.Fetch(connection.conn);
-            EmpTable.Controls.Add(empTable);
-            connection.conn.Close();
         }
 
         protected void Reset_Click(object sender, EventArgs e)
@@ -85,27 +100,27 @@ namespace EmployeeForm
                             console.log('{{errorMsg}}');
                         """;
                     ScriptManager.RegisterStartupScript(this, this.GetType(), Guid.NewGuid().ToString(), script, true);
-
                 }
             }
         }
 
         protected void Delete_Click(object sender, EventArgs e)
         {
-            EmpTable.Controls.Clear();
+            Button deleteButton = (Button)sender;
+
 
             ConnectionParams connection = new ConnectionParams("Employee");
 
             connection.conn.Open();
 
-            //Table newTable = connection.api.Delete(, connection.conn);
+            connection.api.Delete(connection.conn, deleteButton.CommandArgument.ToString());
 
-            //EmpTable.Controls.Add(newTable);
 
             connection.conn.Close();
-
-
         }
+
+
+
 
         protected void ResetFields()
         {

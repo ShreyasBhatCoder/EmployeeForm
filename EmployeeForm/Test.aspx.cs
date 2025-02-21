@@ -14,34 +14,14 @@ namespace EmployeeForm
     {
         protected void Page_Load(object sender, EventArgs e)
         {
-            if(IsPostBack)
-            {
-                AddElement();
-            }
+            //Button1.Click += new EventHandler(this.GreetingBtn_Click);
         }
 
+        
 
-        protected void ClickBtn(object sender, EventArgs e)
+        protected void Button1_Click(object sender, EventArgs e)
         {
-            AddElement();
+            ClientScript.RegisterStartupScript(this.GetType(), "LogButtonClick", $"console.log(\"Hello World\")", true);
         }
-
-        protected void AddElement()
-        {
-            var table = new Table();
-            var tableHeadRow = new TableHeaderRow();
-
-            
-
-            
-
-            tableHeadRow.Cells.Add(new TableHeaderCell() { Text = "Name", Attributes = { ["style"] = "color: red; position: absolute; top: -9999px; left: -9999px" } });
-            tableHeadRow.Cells.Add(new TableHeaderCell() { Text = "Age" });
-
-            table.Rows.Add(tableHeadRow);
-
-            container.Controls.Add(table);
-        }
-
     }
 }

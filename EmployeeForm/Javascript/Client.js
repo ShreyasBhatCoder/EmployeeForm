@@ -1,9 +1,9 @@
-﻿//const form = document.getElementById("form1");
-const inputs = form.querySelectorAll("input");
+﻿const inputs = [...document.querySelectorAll("input")].filter(input => input.value !== "Delete" && input.type !== "hidden");
 const modalBody = document.getElementsByClassName("modal-body")[0];
 const fetchBtn = document.getElementById("FetchBtn");
 const submit = document.getElementById("Submit");
 const reset = document.getElementById("Reset");
+
 
 inputs.forEach(function(input) {
     input.addEventListener("focus", function() {
@@ -18,6 +18,7 @@ inputs.forEach(function(input) {
         }
     });
 });
+
 
 submit.addEventListener("click", function (event) {
     var isValid = true;

@@ -8,8 +8,9 @@ using System.Web.UI.WebControls;
 
 namespace EmployeeForm
 {
-    public class EmployeeAPI
+    public class EmployeeAPI : EmployeeForm
     {
+        int i = 0;
         public void Insert(Employee emp, SqlConnection dbConnStr)
         {
             dbConnStr.Execute($"exec usp_Insert_Employee '{emp.Name}', {emp.Mobile}, '{emp.Email}', '{emp.DOB}', '{emp.Designation}'");
@@ -35,6 +36,8 @@ namespace EmployeeForm
 
             using (SqlCommand command = new SqlCommand($"exec dbo.usp_Get_Employee {name}", dbConnStr))
             {
+                EmployeeForm obj = new EmployeeForm();
+                
                 SqlDataReader read = command.ExecuteReader();
                 while(read.Read())
                 {
@@ -44,7 +47,24 @@ namespace EmployeeForm
                     tableRow.Cells.Add(new TableCell() { Text = (string)read[2], Attributes = { ["data-label"] = "Email" } });
                     tableRow.Cells.Add(new TableCell() { Text = Convert.ToDateTime(read[3]).ToString("dd-MM-yyyy"), Attributes = { ["data-label"] = "Date of Birth" } });
                     tableRow.Cells.Add(new TableCell() { Text = (string)read[4], Attributes = { ["data-label"] = "Designation" } });
-                    tableRow.Cells.Add(new TableCell() { Text = "<button class=\"btn btn-secondary\" runat=\"server\" onserverclick=\"Delete_Click\">Delete</button>" });
+                    //tableRow.Cells.Add(new TableCell() { Text = $"<button class=\"btn btn-secondary\" runat=\"server\" id=\"{String.Concat("row", (++i).ToString())}\" onserverclick=\"Delete_Click\">Delete</button>" });
+
+
+                    Button deleteBtn = new Button
+                    {
+                        Text = "Delete",
+                        CssClass = "btn btn-secondary",
+                        ID = $"row{++i}",
+                        CommandArgument = read[0].ToString()
+                    };
+
+                    deleteBtn.Click += Delete_Click;
+                    
+
+                    TableCell deleteRow = new TableCell();
+                    deleteRow.Controls.Add(deleteBtn);
+                    
+                    tableRow.Cells.Add(deleteRow);
 
                     table.Rows.Add(tableRow);
                 }
@@ -53,16 +73,12 @@ namespace EmployeeForm
 
             return table;
         }
-        public Table Delete(SqlConnection dbConnStr, string name)
+
+        
+
+        public void Delete(SqlConnection dbConnStr, string name)
         {
-            dbConnStr.Open();
-
             dbConnStr.Execute($"exec dbo.usp_Delete_Employee '{name}'");
-            Table table = Fetch(dbConnStr);
-
-            dbConnStr.Close();
-
-            return table;
         }
     }
 }

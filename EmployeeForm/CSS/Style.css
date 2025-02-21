@@ -1,4 +1,8 @@
-﻿#formDiv {
+﻿* {
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+}
+
+#formDiv {
     min-width: 30%;
     position: absolute;
     top: 40px;
@@ -24,7 +28,6 @@ body {
 
 p {
     font-size: 30px;
-    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
     position: relative;
     left: 30px;
     top: 20px;
@@ -73,7 +76,7 @@ tr:hover {
 }
 
 .Fetch {
-    margin: 20px 50px 50px 50px;
+    margin: 20px 10px 50px 10px;
     padding: 5px;
     display: flex;
     justify-content: center;
@@ -88,9 +91,13 @@ tr:hover {
 }
 
 #EmpTable {
-    overflow-y: auto;
+    position: relative;
+    top: 640px;
 }
 
+.container-fluid {
+    display: grid;
+}
 
 
 /* Mobile phones */
@@ -114,7 +121,6 @@ tr:hover {
      }
 
     tr {
-        margin-bottom: 20px;
         border: 1px solid black;
     }
 
@@ -138,6 +144,7 @@ tr:hover {
     #formDiv {
         width: 100%;
         left: 0;
+        right: 0;
         transform: none;
     }
 
@@ -153,7 +160,6 @@ tr:hover {
     #FetchEmp {
         width: 100%;
     }
-    
 }
 
 /* Tablets */
