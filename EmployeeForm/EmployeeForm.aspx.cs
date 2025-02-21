@@ -18,7 +18,7 @@ namespace EmployeeForm
             if (IsPostBack)
             {
                 EmpTable.Controls.Clear();
-                ConnectionParams connection = new ConnectionParams("Employee");
+                ConnectionParams connection = new ConnectionParams("EmployeeDesktop");
 
                 connection.conn.Open();
 
@@ -33,7 +33,7 @@ namespace EmployeeForm
         protected void Submit_Click(object sender, EventArgs er)
         {
             Table empTable;
-            ConnectionParams connection = new ConnectionParams("Employee");
+            ConnectionParams connection = new ConnectionParams("EmployeeDesktop");
             Employee employee = new Employee
             {
                 Name = TextName.Text,
@@ -78,7 +78,7 @@ namespace EmployeeForm
         protected void Fetch_Click(object sender, EventArgs e)
         {
             EmpTable.Controls.Clear();
-            ConnectionParams connection = new ConnectionParams("Employee"); 
+            ConnectionParams connection = new ConnectionParams("EmployeeDesktop"); 
             try
             {
                 connection.conn.Open();
@@ -108,7 +108,7 @@ namespace EmployeeForm
         {
             Button deleteButton = (Button)sender;
 
-            ConnectionParams connection = new ConnectionParams("Employee");
+            ConnectionParams connection = new ConnectionParams("EmployeeDesktop");
 
             connection.conn.Open();
 
