@@ -65,25 +65,49 @@ go
 
 
 go
-create procedure usp_Get_Employee (
+alter procedure usp_Get_Employee (
 	@Name varchar(100) = null
 )
 as
 begin
-	if @Name is null
+	if object_id('Employees') is null
+	begin
+		create table Employees (
+			Name varchar(100) unique,
+			Mobile bigint unique check (len(Mobile) = 10),
+			Email varchar(100),
+			DOB date,
+			Designation varchar(3) check (Designation in ('HO', 'RBM', 'CSM', 'CSE'))
+		);
+		select * from Employees
+	end;
+
+	else if @Name is null
 	begin
 		select * from Employees
 	end
-	else if @Name is not null and not exists (select * from Employees where Name = @Name)
+
+	else if @Name is not null and not exists (select * from Employees where Name = @Name) or object_id('Employees') is null
 	begin
 		raiserror('Record doesn''t exist', 16, 1);
 	end
+
 	else
 	begin
 		select * from Employees where Name = @Name
 	end
 end;
 go
+
+
+--create procedure usp_Update_Employee (
+	
+--)
+--as 
+--begin
+
+--end;
+
 
 
 
@@ -98,8 +122,7 @@ exec usp_Insert_Employee 'Shreyas', 9820819315, 'shreyas@gmail.com', '2022-10-02
 exec usp_Insert_Employee 'Rajesh', 9820819316, 'Rajesh@gmail.com', '2022-10-02', 'CSE';
 exec usp_Insert_Employee 'Sandhya', 9222052650, 'sandhya@gmail.com', '2022-10-02', 'CSM';
 
-exec usp_Delete_Employee 'Anuj';
-exec usp_Get_Employee;
-
+exec usp_Delete_Employee 'Shreyas';
+exec usp_Get_Employee 'Shreyas';
 
 
