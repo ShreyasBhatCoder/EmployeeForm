@@ -3,6 +3,8 @@ const modalBody = document.getElementsByClassName("modal-body")[0];
 const fetchBtn = document.getElementById("FetchBtn");
 const submit = document.getElementById("Submit");
 const reset = document.getElementById("Reset");
+const popovers = [...document.querySelectorAll('[data-bs-toggle="popover"]')];
+
 
 
 inputs.forEach(function(input) {
@@ -49,3 +51,17 @@ fetchBtn.addEventListener("click", function (event) {
         input.classList.remove("is-invalid");
     });
 })
+
+popovers.forEach(pop => new bootstrap.Popover(pop, {
+    //trigger: "focus",
+    html: true,
+    sanitize: false
+}));
+
+document.body.addEventListener("click", function (event) {
+    if (event.target.id === "Delete") {
+        console.log("Delete button clicked");
+        event.preventDefault();
+        __doPostBack("Delete", '');
+    }
+});

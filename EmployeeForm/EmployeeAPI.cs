@@ -6,6 +6,7 @@ using System.Linq;
 using System.Web;
 using System.Web.UI.WebControls;
 using System.Data;
+using System.Web.UI;
 
 namespace EmployeeForm
 {
@@ -14,7 +15,6 @@ namespace EmployeeForm
         int i = 0;
         public void Insert(Employee emp, SqlConnection dbConnStr)
         {
-            //dbConnStr.Execute($"exec usp_Insert_Employee @Name}', {emp.Mobile}, @Email}', @DOB}', @Designation}'");
             using (SqlCommand cmd = new SqlCommand("exec usp_Insert_Employee @Name, @Mobile, @Email, @DOB, @Designation", dbConnStr))
             {
                 cmd.Parameters.Add("@Name", SqlDbType.VarChar).Value = emp.Name;
@@ -39,7 +39,6 @@ namespace EmployeeForm
             Headers.Cells.Add(new TableHeaderCell() { Text = "Email" });
             Headers.Cells.Add(new TableHeaderCell() { Text = "Date of Birth" });
             Headers.Cells.Add(new TableHeaderCell() { Text = "Designation" });
-            //Headers.Cells.Add(new TableHeaderCell());
 
             table.Rows.Add(Headers);
 
@@ -52,32 +51,50 @@ namespace EmployeeForm
                 SqlDataReader read = command.ExecuteReader();
                 while(read.Read())
                 {
-                    var tableRow = new TableRow();
+                    var tableRow = new TableRow() {
+                        Attributes =
+                        {
+                            ["data-bs-toggle"] = "popover",
+                            //["data-bs-trigger"] = "focus",
+                            ["data-bs-placement"] = "right",
+                            ["tabindex"] = $"{i++}"
+                        }
+                    };
                     tableRow.Cells.Add(new TableCell() { Text = (string)read[0], Attributes = { ["data-label"] = "Name" } });
                     tableRow.Cells.Add(new TableCell() { Text = read[1].ToString(), Attributes = { ["data-label"] = "Mobile" } });
                     tableRow.Cells.Add(new TableCell() { Text = (string)read[2], Attributes = { ["data-label"] = "Email" } });
                     tableRow.Cells.Add(new TableCell() { Text = Convert.ToDateTime(read[3]).ToString("dd-MM-yyyy"), Attributes = { ["data-label"] = "Date of Birth" } });
                     tableRow.Cells.Add(new TableCell() { Text = (string)read[4], Attributes = { ["data-label"] = "Designation" } });
+
+
+
+
+                    Button deleteBtn = new Button
+                    {
+                        ID = "Delete",
+                        Text = "Delete",
+                        CssClass = "btn btn-danger",
+                        CommandArgument = read[0].ToString()
+                    };
+
+                    deleteBtn.Click += Delete_Click;
+
                     
 
+                    using(System.IO.StringWriter sw = new System.IO.StringWriter())
+                    {
+                        HtmlTextWriter hw = new HtmlTextWriter(sw);
+                        deleteBtn.RenderControl(hw);
+                        string deleteBtnHtml = sw.ToString();
 
-                    /// Delete Button
+                        tableRow.Attributes["data-bs-content"] = $"""
+                                <div class="popup-btns">
+                                    <button class='btn btn-secondary'>Edit</button>
+                                    {deleteBtnHtml}
+                                </div>
+                            """;
+                    }
 
-                    //Button deleteBtn = new Button
-                    //{
-                    //    Text = "Delete",
-                    //    CssClass = "btn btn-secondary",
-                    //    ID = $"row{++i}",
-                    //    CommandArgument = read[0].ToString()
-                    //};
-
-                    //deleteBtn.Click += Delete_Click;
-                    
-
-                    //TableCell deleteRow = new TableCell();
-                    //deleteRow.Controls.Add(deleteBtn);
-                    
-                    //tableRow.Cells.Add(deleteRow);
 
                     table.Rows.Add(tableRow);
                 }
@@ -96,7 +113,6 @@ namespace EmployeeForm
                 cmd.Parameters.Add(new SqlParameter("@Name", SqlDbType.VarChar)).Value = name;
                 cmd.ExecuteNonQuery();
             }
-            //dbConnStr.Execute($"exec dbo.usp_Delete_Employee '{name}'");
         }
 
         public void Update(SqlConnection dbConnStr)
