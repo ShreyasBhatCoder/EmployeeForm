@@ -56,13 +56,18 @@ fetchBtn.addEventListener("click", function (event) {
 
 editBtns.forEach(edit => {
     edit.addEventListener("click", function (event) {
-        const td = edit.closest("td")?.previousElementSibling;
+        event.preventDefault();
 
-        if (td) {
-            td.setAttribute("contenteditable", "true");
-            td.focus();
-        } else {
-            console.log("Cannot set");
-        }
-    })
-})
+        const parentRow = edit.closest("tr[data-command-argument]");
+        const tds = parentRow.querySelectorAll("td[data-label]");
+
+        // Check if the first td is already editable
+        const isEditable = tds[0].getAttribute("contenteditable") === "true";
+
+        // Toggle contentEditable attribute for each td
+        tds.forEach(td => {
+            td.setAttribute("contenteditable", !isEditable);
+            //td.style.outline = !isEditable ? "2px solid blue" : "none"; // Visual indicator
+        });
+    });
+});

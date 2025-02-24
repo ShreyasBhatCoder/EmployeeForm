@@ -115,6 +115,7 @@ namespace EmployeeForm
 
         protected void Edit_Click(object sender, EventArgs e)
         {
+            Button edit = (Button)sender;
 
         }
 
