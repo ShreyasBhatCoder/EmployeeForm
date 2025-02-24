@@ -39,6 +39,7 @@ namespace EmployeeForm
             Headers.Cells.Add(new TableHeaderCell() { Text = "Email" });
             Headers.Cells.Add(new TableHeaderCell() { Text = "Date of Birth" });
             Headers.Cells.Add(new TableHeaderCell() { Text = "Designation" });
+            Headers.Cells.Add(new TableHeaderCell());
 
             table.Rows.Add(Headers);
 
@@ -51,13 +52,11 @@ namespace EmployeeForm
                 SqlDataReader read = command.ExecuteReader();
                 while(read.Read())
                 {
-                    var tableRow = new TableRow() {
+                    var tableRow = new TableRow()
+                    {
                         Attributes =
                         {
-                            ["data-bs-toggle"] = "popover",
-                            //["data-bs-trigger"] = "focus",
-                            ["data-bs-placement"] = "right",
-                            ["tabindex"] = $"{i++}"
+                            ["data-command-argument"] = read[0].ToString()
                         }
                     };
                     tableRow.Cells.Add(new TableCell() { Text = (string)read[0], Attributes = { ["data-label"] = "Name" } });
@@ -71,7 +70,7 @@ namespace EmployeeForm
 
                     Button deleteBtn = new Button
                     {
-                        ID = "Delete",
+                        ID = $"Delete_{read[0].ToString()}",
                         Text = "Delete",
                         CssClass = "btn btn-danger",
                         CommandArgument = read[0].ToString()
@@ -79,22 +78,27 @@ namespace EmployeeForm
 
                     deleteBtn.Click += Delete_Click;
 
-                    
-
-                    using(System.IO.StringWriter sw = new System.IO.StringWriter())
+                    Button editBtn = new Button
                     {
-                        HtmlTextWriter hw = new HtmlTextWriter(sw);
-                        deleteBtn.RenderControl(hw);
-                        string deleteBtnHtml = sw.ToString();
+                        ID = $"Edit_{read[0].ToString()}",
+                        Text = "Edit",
+                        CssClass = "btn btn-secondary",
+                        CommandArgument = read[0].ToString()
+                    };
 
-                        tableRow.Attributes["data-bs-content"] = $"""
-                                <div class="popup-btns">
-                                    <button class='btn btn-secondary'>Edit</button>
-                                    {deleteBtnHtml}
-                                </div>
-                            """;
-                    }
 
+                    Panel actionButtons = new Panel() { CssClass = "btn-group gap-2", ID = $"actions_{read[0].ToString()}" };
+                    actionButtons.Controls.Add(editBtn);
+                    actionButtons.Controls.Add(deleteBtn);
+
+
+
+
+
+                    TableCell deleteRow = new TableCell();
+                    deleteRow.Controls.Add(actionButtons);
+
+                    tableRow.Cells.Add(deleteRow);
 
                     table.Rows.Add(tableRow);
                 }

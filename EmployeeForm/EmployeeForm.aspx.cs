@@ -107,17 +107,16 @@ namespace EmployeeForm
         protected void Delete_Click(object sender, EventArgs e)
         {
             Button deleteButton = (Button)sender;
-
             ConnectionParams connection = new ConnectionParams("EmployeeDesktop");
-
             connection.conn.Open();
-
             connection.api.Delete(connection.conn, deleteButton.CommandArgument.ToString());
-
-
             connection.conn.Close();
         }
 
+        protected void Edit_Click(object sender, EventArgs e)
+        {
+
+        }
 
 
 

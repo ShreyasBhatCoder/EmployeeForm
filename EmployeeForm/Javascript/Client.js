@@ -3,7 +3,8 @@ const modalBody = document.getElementsByClassName("modal-body")[0];
 const fetchBtn = document.getElementById("FetchBtn");
 const submit = document.getElementById("Submit");
 const reset = document.getElementById("Reset");
-const popovers = [...document.querySelectorAll('[data-bs-toggle="popover"]')];
+const editBtns = [...document.querySelectorAll(".btn-secondary")].filter(edit => /(^Edit)/.test(edit.id) === true);
+const dataTable = document.querySelector("table");
 
 
 
@@ -52,16 +53,16 @@ fetchBtn.addEventListener("click", function (event) {
     });
 })
 
-popovers.forEach(pop => new bootstrap.Popover(pop, {
-    //trigger: "focus",
-    html: true,
-    sanitize: false
-}));
 
-document.body.addEventListener("click", function (event) {
-    if (event.target.id === "Delete") {
-        console.log("Delete button clicked");
-        event.preventDefault();
-        __doPostBack("Delete", '');
-    }
-});
+editBtns.forEach(edit => {
+    edit.addEventListener("click", function (event) {
+        const td = edit.closest("td")?.previousElementSibling;
+
+        if (td) {
+            td.setAttribute("contenteditable", "true");
+            td.focus();
+        } else {
+            console.log("Cannot set");
+        }
+    })
+})

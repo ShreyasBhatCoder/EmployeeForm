@@ -7,7 +7,6 @@
     <title>Employee Details</title>
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-aFq/bzH65dt+w6FI2ooMVUpc+21e0SRygnTpmBvdBgSdnuTN7QbdgL+OapgHtvPp" crossorigin="anonymous" />
     <link rel="stylesheet" href="~/CSS/Style.css" />
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css" integrity="sha384-k6RqeWeci5ZR/Lv4MR0sA0FfDOM6gD1g5e5e5e5e5e5e5e5e5e5e5e5e5e5e5e5" crossorigin="anonymous" />
     
 </head>
 <body>
@@ -36,7 +35,7 @@
                     <asp:TextBox CssClass="form-control" ID="TextDesignation" runat="server" Placeholder="Designation" required="required"></asp:TextBox>
                 </div>
 
-                <div class="btn-group gap-2">
+                <div class="btn-group gap-2" id="form-actions">
                     <asp:Button runat="server" Text="Submit" CssClass="btn btn-lg btn-secondary" ID="Submit" OnClick="Submit_Click" data-bs-toggle="modal" data-bs-target="#staticBackdrop"/>
                     <button type="reset" runat="server" class="btn btn-lg btn-secondary" id="Reset" onserverclick="Reset_Click">Reset</button>
                 </div>
@@ -67,7 +66,7 @@
             </ContentTemplate>
         </asp:UpdatePanel>
         <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha2/dist/js/bootstrap.bundle.min.js" integrity="sha384-qKXV1j0HvMUeCBQ+QVp7JcfGl760yU08IQ+GpUo5hlbpg51QRiuqHAJz8+BrxE/N" crossorigin="anonymous"></script>
-        <script src="https://kit.fontawesome.com/e49109d6da.js" crossorigin="anonymous"></script>
+        
     </form>
 
     <script type="text/javascript" src="./Javascript/Client.js"></script>
