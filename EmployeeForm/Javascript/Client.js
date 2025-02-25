@@ -59,16 +59,10 @@ fetchBtn.addEventListener("click", function (event) {
 
 
 
-editBtns.forEach(edit => {
-});
-
-
-
-
 actionBtns.forEach(actionsDiv => {
     const originalDivHTML = actionsDiv.outerHTML; // Store original div as a string
 
-    let isReplaced = false; // Toggle state
+    let wasReplaced = false; // Toggle state
     let replacedElement = "";
 
     const edit = actionsDiv.querySelector("input");
@@ -79,21 +73,22 @@ actionBtns.forEach(actionsDiv => {
         tempContainer.innerHTML = originalDivHTML;
 
         // If the div was replaced by the input element, then restore the div, else keep the input
-        if (isReplaced) {
+        if (wasReplaced) {
             replacedElement = tempContainer.firstElementChild
             replacedElement.value = "Edit";
         } else {
-            replacedElement = edit.cloneNode(true);
+            replacedElement = edit;
             replacedElement.value = "Save";
         }
 
         replacedElement.addEventListener("click", toggleElement);
-
-        // Replace Edit button with full div
         actionsDiv.replaceWith(replacedElement);
+
         // Update reference
         actionsDiv = replacedElement;
-        isReplaced = !isReplaced;
+        wasReplaced = !wasReplaced;
+
+
     }
 
 
@@ -112,6 +107,7 @@ actionBtns.forEach(actionsDiv => {
 
         toggleElement();
 
+        // Reset the blur and focused effects
         document.querySelectorAll("tr").forEach(row => row.classList.remove("focused", "blurred"));
         if (!isEditable) {
             parentRow.classList.add("focused");
@@ -119,8 +115,7 @@ actionBtns.forEach(actionsDiv => {
         }
     });
 
-    // Attach the event listener initially to the div
-    //actionsDiv.addEventListener("click", toggleElement);
+
 })
 
 
