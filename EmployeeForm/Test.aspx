@@ -12,10 +12,13 @@
 
 </head>
 <body>
-    <form id="form1" runat="server">
 
-        <asp:Button runat="server" ID="Button1" Text="Button1" OnClick="Button1_Click"/>
+    <form id="form1" runat="server">
+        <asp:ScriptManager runat="server" />
+
+        <%--<asp:Button runat="server" ID="Button1" Text="Button1" OnClick="Button1_Click"/>--%>
         
     </form>
+    <script src="Index.js"></script>
 </body>
 </html>

@@ -10,18 +10,23 @@ using System.Web.Services.Description;
 
 namespace EmployeeForm
 {
-    public partial class Test : System.Web.UI.Page
+    public partial class Test : System.Web.UI.Page, IPostBackEventHandler
     {
-        protected void Page_Load(object sender, EventArgs e)
+        
+        void IPostBackEventHandler.RaisePostBackEvent(string eventArgument)
         {
-            //Button1.Click += new EventHandler(this.GreetingBtn_Click);
+            if(eventArgument == "ClickBtn")
+            {
+                Button1_Click();
+            }
         }
 
         
 
-        protected void Button1_Click(object sender, EventArgs e)
+        protected void Button1_Click()
         {
-            ClientScript.RegisterStartupScript(this.GetType(), "LogButtonClick", $"console.log(\"Hello World\")", true);
+            ScriptManager.RegisterStartupScript(this, this.GetType(), "LogButtonClick", $"console.log('Hello World');", true);
+            //Response.Write("hello");
         }
     }
 }

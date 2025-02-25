@@ -3,8 +3,11 @@ const modalBody = document.getElementsByClassName("modal-body")[0];
 const fetchBtn = document.getElementById("FetchBtn");
 const submit = document.getElementById("Submit");
 const reset = document.getElementById("Reset");
-const editBtns = [...document.querySelectorAll(".btn-secondary")].filter(edit => /(^Edit)/.test(edit.id) === true);
-const dataTable = document.querySelector("table");
+const editBtns = [...document.querySelectorAll(".btn-secondary")].filter(edit => /(Edit$)/.test(edit.id) === true);
+//const updateBtns = document.querySelectorAll(".btn-success");
+const actionBtns = [...document.querySelectorAll(".btn-group")].filter(btnGrp => /(^actions)/.test(btnGrp.id) === true);
+
+
 
 
 
@@ -51,23 +54,40 @@ fetchBtn.addEventListener("click", function (event) {
     inputs.forEach(function (input) {
         input.classList.remove("is-invalid");
     });
-})
+});
+
+
 
 
 editBtns.forEach(edit => {
     edit.addEventListener("click", function (event) {
+        editID = event.target.id;
         event.preventDefault();
+        event.stopPropagation();
 
         const parentRow = edit.closest("tr[data-command-argument]");
         const tds = parentRow.querySelectorAll("td[data-label]");
-
-        // Check if the first td is already editable
         const isEditable = tds[0].getAttribute("contenteditable") === "true";
 
-        // Toggle contentEditable attribute for each td
         tds.forEach(td => {
             td.setAttribute("contenteditable", !isEditable);
-            //td.style.outline = !isEditable ? "2px solid blue" : "none"; // Visual indicator
         });
+
+        edit.value = isEditable ? "Edit" : "Save";
+
+        
+        
+
+        document.querySelectorAll("tr").forEach(row => row.classList.remove("focused", "blurred"));
+        if (!isEditable) {
+            parentRow.classList.add("focused");
+            document.querySelectorAll("tr:not(.focused)").forEach(row => row.classList.add("blurred"));
+        }
     });
 });
+
+
+
+
+
+

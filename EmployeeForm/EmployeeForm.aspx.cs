@@ -24,6 +24,8 @@ namespace EmployeeForm
 
 
                 Table newTable = connection.api.Fetch(connection.conn);
+                
+
                 EmpTable.Controls.Add(newTable);
 
                 connection.conn.Close();

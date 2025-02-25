@@ -96,7 +96,9 @@ td:last-child {
     top: 640px;
 }
 
-
+.blurred {
+    filter: blur(5px);
+}
 
 
 /* Mobile phones */

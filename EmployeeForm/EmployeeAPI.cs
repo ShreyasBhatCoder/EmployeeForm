@@ -70,7 +70,7 @@ namespace EmployeeForm
 
                     Button deleteBtn = new Button
                     {
-                        ID = $"Delete_{read[0].ToString()}",
+                        ID = $"{read[0].ToString()}_Delete",
                         Text = "Delete",
                         CssClass = "btn btn-danger",
                         CommandArgument = read[0].ToString()
@@ -80,19 +80,15 @@ namespace EmployeeForm
 
                     Button editBtn = new Button
                     {
-                        ID = $"Edit_{read[0].ToString()}",
+                        ID = $"{read[0].ToString()}_Edit",
                         Text = "Edit",
                         CssClass = "btn btn-secondary",
                         CommandArgument = read[0].ToString()
                     };
 
-
                     Panel actionButtons = new Panel() { CssClass = "btn-group gap-2", ID = $"actions_{read[0].ToString()}" };
                     actionButtons.Controls.Add(editBtn);
                     actionButtons.Controls.Add(deleteBtn);
-
-
-
 
 
                     TableCell deleteRow = new TableCell();
