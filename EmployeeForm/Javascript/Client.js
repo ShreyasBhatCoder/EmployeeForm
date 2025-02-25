@@ -60,8 +60,45 @@ fetchBtn.addEventListener("click", function (event) {
 
 
 editBtns.forEach(edit => {
+});
+
+
+
+
+actionBtns.forEach(actionsDiv => {
+    const originalDivHTML = actionsDiv.outerHTML; // Store original div as a string
+
+    let isReplaced = false; // Toggle state
+    let replacedElement = "";
+
+    const edit = actionsDiv.querySelector("input");
+
+    function toggleElement() {
+        // Copy the original btn-grp div element that stored in a temporary variable
+        const tempContainer = document.createElement("div");
+        tempContainer.innerHTML = originalDivHTML;
+
+        // If the div was replaced by the input element, then restore the div, else keep the input
+        if (isReplaced) {
+            replacedElement = tempContainer.firstElementChild
+            replacedElement.value = "Edit";
+        } else {
+            replacedElement = edit.cloneNode(true);
+            replacedElement.value = "Save";
+        }
+
+        replacedElement.addEventListener("click", toggleElement);
+
+        // Replace Edit button with full div
+        actionsDiv.replaceWith(replacedElement);
+        // Update reference
+        actionsDiv = replacedElement;
+        isReplaced = !isReplaced;
+    }
+
+
+
     edit.addEventListener("click", function (event) {
-        editID = event.target.id;
         event.preventDefault();
         event.stopPropagation();
 
@@ -73,10 +110,7 @@ editBtns.forEach(edit => {
             td.setAttribute("contenteditable", !isEditable);
         });
 
-        edit.value = isEditable ? "Edit" : "Save";
-
-        
-        
+        toggleElement();
 
         document.querySelectorAll("tr").forEach(row => row.classList.remove("focused", "blurred"));
         if (!isEditable) {
@@ -84,10 +118,12 @@ editBtns.forEach(edit => {
             document.querySelectorAll("tr:not(.focused)").forEach(row => row.classList.add("blurred"));
         }
     });
-});
+
+    // Attach the event listener initially to the div
+    //actionsDiv.addEventListener("click", toggleElement);
+})
 
 
 
 
-
-
+//console.log();
