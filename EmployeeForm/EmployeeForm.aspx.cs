@@ -14,7 +14,6 @@ namespace EmployeeForm
     {
         protected void Page_Load(object sender, EventArgs e)
         {
-
             if (IsPostBack)
             {
                 EmpTable.Controls.Clear();
@@ -99,7 +98,6 @@ namespace EmployeeForm
                     string script = $$"""
                             document.getElementsByClassName('modal-body')[0].innerHTML = '{{errorMsg}}';
                             (new bootstrap.Modal(document.getElementById('staticBackdrop'))).show();
-                            console.log('{{errorMsg}}');
                         """;
                     ScriptManager.RegisterStartupScript(this, this.GetType(), Guid.NewGuid().ToString(), script, true);
                 }
@@ -113,11 +111,19 @@ namespace EmployeeForm
             connection.conn.Open();
             connection.api.Delete(connection.conn, deleteButton.CommandArgument.ToString());
             connection.conn.Close();
+
+            ResetFields();
         }
 
         protected void Edit_Click(object sender, EventArgs e)
         {
-            Button edit = (Button)sender;
+            ResetFields();
+
+
+            ConnectionParams connection = new ConnectionParams("EmployeeDesktop");
+            connection.conn.Open();
+            Submit_Click(sender, e);
+            connection.conn.Close();
 
         }
 
