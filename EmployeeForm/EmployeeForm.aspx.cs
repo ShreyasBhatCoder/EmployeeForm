@@ -115,17 +115,17 @@ namespace EmployeeForm
             ResetFields();
         }
 
-        protected void Edit_Click(object sender, EventArgs e)
-        {
-            ResetFields();
+        //protected void Edit_Click(object sender, EventArgs e)
+        //{
+        //    ResetFields();
 
 
-            ConnectionParams connection = new ConnectionParams("EmployeeDesktop");
-            connection.conn.Open();
-            Submit_Click(sender, e);
-            connection.conn.Close();
+        //    ConnectionParams connection = new ConnectionParams("EmployeeDesktop");
+        //    connection.conn.Open();
+        //    Submit_Click(sender, e);
+        //    connection.conn.Close();
 
-        }
+        //}
 
 
 

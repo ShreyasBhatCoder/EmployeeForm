@@ -14,47 +14,8 @@ create table Employees (
 
 truncate table Employees
 
-go
-alter procedure usp_Insert_Update_Employee (
-	@Name varchar(100),
-	@Mobile bigint,
-	@Email varchar(100),
-	@DOB date,
-	@Designation varchar(3)
-) 
-as
-begin
-	if object_id('Employees') is null
-	begin
-		create table Employees (
-			Name varchar(100) unique,
-			Mobile bigint unique check (len(Mobile) = 10),
-			Email varchar(100),
-			DOB date,
-			Designation varchar(3) check (Designation in ('HO', 'RBM', 'CSM', 'CSE'))
-		);
-
-	end;
-
-	if exists (
-		select *
-		from Employees
-		where Name = @Name
-	)
-	begin
-		exec usp_Delete_Employee @Name;
-	end;
-
-	insert into Employees
-	values
-	(@Name, @Mobile, @Email, @DOB, @Designation);
-end;
-go
-
-
-
 --go
---alter procedure usp_Insert_Employee (
+--alter procedure usp_Insert_Update_Employee (
 --	@Name varchar(100),
 --	@Mobile bigint,
 --	@Email varchar(100),
@@ -75,11 +36,50 @@ go
 
 --	end;
 
+--	if exists (
+--		select *
+--		from Employees
+--		where Name = @Name
+--	)
+--	begin
+--		exec usp_Delete_Employee @Name;
+--	end;
+
 --	insert into Employees
 --	values
 --	(@Name, @Mobile, @Email, @DOB, @Designation);
 --end;
 --go
+
+
+
+go
+alter procedure usp_Insert_Employee (
+	@Name varchar(100),
+	@Mobile bigint,
+	@Email varchar(100),
+	@DOB date,
+	@Designation varchar(3)
+) 
+as
+begin
+	if object_id('Employees') is null
+	begin
+		create table Employees (
+			Name varchar(100) unique,
+			Mobile bigint unique check (len(Mobile) = 10),
+			Email varchar(100),
+			DOB date,
+			Designation varchar(3) check (Designation in ('HO', 'RBM', 'CSM', 'CSE'))
+		);
+
+	end;
+
+	insert into Employees
+	values
+	(@Name, @Mobile, @Email, @DOB, @Designation);
+end;
+go
 
 
 
@@ -132,7 +132,7 @@ begin
 			when Designation = 'RBM' then 2
 			when Designation = 'CSM' then 3
 			when Designation = 'CSE' then 4
-		end
+		end, Name
 	end;
 
 	else if @Name is null
@@ -145,7 +145,7 @@ begin
 			when Designation = 'RBM' then 2
 			when Designation = 'CSM' then 3
 			when Designation = 'CSE' then 4
-		end
+		end, Name
 	end
 
 	else if @Name is not null and not exists (select * from Employees where Name = @Name) or object_id('Employees') is null
@@ -155,7 +155,7 @@ begin
 
 	else
 	begin
-		select Name, Mobile, Email, DOB, Designation 
+		select * 
 		from Employees 
 		where Name = @Name
 	end
@@ -175,7 +175,7 @@ case
 	when Designation = 'RBM' then 2
 	when Designation = 'CSM' then 3
 	when Designation = 'CSE' then 4
-end;
+end, Name;
 
 delete from Employees
 where Name = 'Sandhya' or Mobile = 9222052650

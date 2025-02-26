@@ -15,7 +15,7 @@ namespace EmployeeForm
         int i = 0;
         public void Insert(Employee emp, SqlConnection dbConnStr)
         {
-            using (SqlCommand cmd = new SqlCommand("exec usp_Insert_Update_Employee @Name, @Mobile, @Email, @DOB, @Designation", dbConnStr))
+            using (SqlCommand cmd = new SqlCommand("exec usp_Insert_Employee @Name, @Mobile, @Email, @DOB, @Designation", dbConnStr))
             {
                 cmd.Parameters.Add("@Name", SqlDbType.VarChar).Value = emp.Name;
                 cmd.Parameters.Add("@Mobile", SqlDbType.BigInt).Value = emp.Mobile;
@@ -86,7 +86,15 @@ namespace EmployeeForm
                         CommandArgument = read[0].ToString()
                     };
 
-                    editBtn.Click += Submit_Click;
+
+                    Button saveBtn = new Button
+                    {
+                        ID = $"{read[0].ToString()}_Save",
+                        Text = "Save",
+                        CssClass = "btn btn-secondary replaced",
+                        CommandArgument = read[0].ToString()
+                    }; 
+                    
 
                     Panel actionButtons = new Panel() { CssClass = "btn-group gap-2", ID = $"actions_{read[0].ToString()}" };
                     actionButtons.Controls.Add(editBtn);
@@ -95,6 +103,7 @@ namespace EmployeeForm
 
                     TableCell deleteRow = new TableCell();
                     deleteRow.Controls.Add(actionButtons);
+                    deleteRow.Controls.Add(saveBtn);
 
                     tableRow.Cells.Add(deleteRow);
 

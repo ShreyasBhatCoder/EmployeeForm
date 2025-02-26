@@ -100,6 +100,9 @@ td:last-child {
     filter: blur(5px);
 }
 
+.replaced {
+    display: none;
+}
 
 /* Mobile phones */
 @media only screen and (max-width: 550px) {

@@ -1,21 +1,18 @@
-﻿const inputs = [...document.querySelectorAll("input")].filter(input => input.value !== "Delete"
-                                                                       && input.type !== "hidden"
-                                                                       && /(^Text)/.test(input.id) === true
-                                                                );
+﻿const inputs = [...document.querySelectorAll("input")].filter(input => input.value !== "Delete" && input.type !== "hidden");
 const modalBody = document.getElementsByClassName("modal-body")[0];
 const fetchBtn = document.getElementById("FetchBtn");
 const submit = document.getElementById("Submit");
 const reset = document.getElementById("Reset");
-const editBtns = [...document.querySelectorAll(".btn-secondary")].filter(edit => /(Edit$)/.test(edit.id) === true);
-//const updateBtns = document.querySelectorAll(".btn-success");
 const actionBtns = [...document.querySelectorAll(".btn-group")].filter(btnGrp => /(^actions)/.test(btnGrp.id) === true);
+const saveBtns = [...document.querySelectorAll(".btn-secondary")].filter(save => /(Save$)/.test(save.id) === true);
+
+const actionToSave = new Map(actionBtns.map((action, save) => [action, saveBtns[save]]));
 
 
 
 
-
-inputs.forEach(function(input) {
-    input.addEventListener("focus", function() {
+inputs.forEach(function (input) {
+    input.addEventListener("focus", function () {
         input.classList.remove("is-valid", "is-invalid");
     });
 
@@ -47,8 +44,6 @@ submit.addEventListener("click", function (event) {
 });
 
 reset.addEventListener("click", function (event) {
-    
-
     inputs.forEach(function (input) {
         input.classList.remove("is-valid", "is-invalid");
     });
@@ -63,96 +58,33 @@ fetchBtn.addEventListener("click", function (event) {
 
 
 
-
-//actionBtns.forEach(actionsDiv => {
-//    const originalDivHTML = actionsDiv.outerHTML; // Store original div as a string
-
-//    let wasReplaced = false; // Toggle state
-//    let replacedElement = "";
-
-//    const edit = actionsDiv.querySelector("input");
-
-//    function toggleElement() {
-//        // Copy the original btn-grp div element that stored in a temporary variable
-//        const tempContainer = document.createElement("div");
-//        tempContainer.innerHTML = originalDivHTML;
-
-//        // If the div was replaced by the input element, then restore the div, else keep the input
-//        if (wasReplaced) {
-//            replacedElement = tempContainer.firstElementChild
-//            replacedElement.value = "Edit";
-//            replacedElement.querySelector("input").addEventListener("click", toggleElement);
-//        } else {
-//            replacedElement = edit;
-//            replacedElement.value = "Save";
-//            replacedElement.addEventListener("click", toggleElement);
-//        }
-
-
-//        actionsDiv.replaceWith(replacedElement);
-
-//        // Update reference
-//        actionsDiv = replacedElement;
-//        wasReplaced = !wasReplaced;
-
-
-//    }
-
-//    // Attach the event listener initially to the div
-//    if (actionsDiv.tagName.toLowerCase() === "div") {
-//        actionsDiv.querySelector("input").addEventListener("click", function (event) {
-//            event.preventDefault();
-//            //event.stopPropagation();
-
-//            const parentRow = edit.closest("tr[data-command-argument]");
-//            const tds = parentRow.querySelectorAll("td[data-label]");
-//            const isEditable = tds[0].getAttribute("contenteditable") === "true";
-
-//            tds.forEach(td => {
-//                td.setAttribute("contenteditable", !isEditable);
-//            });
-
-//            toggleElement();
-
-//            // Reset the blur and focused effects
-//            document.querySelectorAll("tr").forEach(row => row.classList.remove("focused", "blurred"));
-//            if (!isEditable) {
-//                parentRow.classList.add("focused");
-//                document.querySelectorAll("tr:not(.focused)").forEach(row => row.classList.add("blurred"));
-//            }
-//        });
-//    } else {
-//        actionsDiv.addEventListener("click", function (event) {
-//            event.preventDefault();
-//            //event.stopPropagation();
-
-//            const parentRow = edit.closest("tr[data-command-argument]");
-//            const tds = parentRow.querySelectorAll("td[data-label]");
-//            const isEditable = tds[0].getAttribute("contenteditable") === "true";
-
-//            tds.forEach(td => {
-//                td.setAttribute("contenteditable", !isEditable);
-//            });
-
-//            toggleElement();
-
-//            // Reset the blur and focused effects
-//            document.querySelectorAll("tr").forEach(row => row.classList.remove("focused", "blurred"));
-//            if (!isEditable) {
-//                parentRow.classList.add("focused");
-//                document.querySelectorAll("tr:not(.focused)").forEach(row => row.classList.add("blurred"));
-//            }
-//        });
-//    }
-
-
-
-
-editBtns.forEach(edit => {
+actionToSave.forEach((save, actions) => {
+    var edit = actions.querySelector("input");
     edit.addEventListener("click", function (event) {
-        const vals = edit.closest("tr[data-command-argument]").querySelectorAll("td[data-label]");
-        for (let i = 0; i < inputs.length; i++) {
-            inputs[i].value = vals[i].innerText;
+        event.preventDefault();
+        event.stopPropagation();
+
+        const parentRow = edit.closest("tr[data-command-argument]");
+        const tds = parentRow.querySelectorAll("td[data-label]");
+
+        actions.classList.add("replaced");
+        save.classList.remove("replaced");
+
+        const isEditable = tds[0].getAttribute("contenteditable") === "true" && actions.classList.contains("replaced") === true;
+
+        tds.forEach(td => {
+            td.setAttribute("contenteditable", !isEditable);
+        });
+
+
+        // Reset the blur and focused effects
+        document.querySelectorAll("tr").forEach(row => row.classList.remove("focused", "blurred"));
+        if (!isEditable) {
+            parentRow.classList.add("focused");
+            document.querySelectorAll("tr:not(.focused)").forEach(row => row.classList.add("blurred"));
         }
-    })
+    });
 });
+
+
+
