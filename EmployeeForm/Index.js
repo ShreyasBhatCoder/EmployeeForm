@@ -31,5 +31,3 @@ function updateHiddenField(element) {
     document.getElementById(updatedHiddenID).value = JSON.stringify(updatedData);
 }
 
-console.log(originalData);
-console.log(updatedData);

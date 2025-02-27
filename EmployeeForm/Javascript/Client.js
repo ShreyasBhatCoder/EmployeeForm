@@ -9,6 +9,11 @@ const saveBtns = [...document.querySelectorAll(".btn-success")];
 
 const actionToSave = new Map(actionBtns.map((action, save) => [action, saveBtns[save]]));
 
+let originalData = {}; // To store original values
+let updatedData = {};  // To store updated values
+
+const originalHiddenId = 'OriginalHidden';
+const updatedHiddenID = 'UpdatedHidden';
 
 
 inputs.forEach(function (input) {
@@ -101,4 +106,32 @@ actionToSave.forEach((save, actions) => {
     });
 });
 
- 
+
+
+function storeOriginal(element) {
+    let row = element.getAttribute("data-row");
+    let field = element.getAttribute("data-label");
+
+    if (!originalData[row]) {
+        originalData[row] = {};
+    }
+
+    if (!originalData[row][field]) {
+        originalData[row][field] = element.innerText.trim();
+        document.getElementById(originalHiddenId).value = JSON.stringify(originalData);
+    }
+
+}
+
+function updateHiddenField(element) {
+    let row = element.getAttribute("data-row");
+    let field = element.getAttribute("data-label");
+
+    if (!updatedData[row]) {
+        updatedData[row] = {};
+    }
+
+    updatedData[row][field] = element.innerText.trim();
+    document.getElementById(updatedHiddenID).value = JSON.stringify(updatedData);
+}
+

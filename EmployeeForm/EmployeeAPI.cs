@@ -52,14 +52,8 @@ namespace EmployeeForm
                 SqlDataReader read = command.ExecuteReader();
                 while(read.Read())
                 {
-                    var tableRow = new TableRow()
-                    {
-                        Attributes =
-                        {
-                            ["data-command-argument"] = read[0].ToString()
-                        }
-                    };
-                    i++;
+                    var tableRow = new TableRow(){ Attributes = { ["data-row"] = $"{++i}" } };
+
                     tableRow.Cells.Add(new TableCell() { Text = (string)read[0], Attributes = { ["data-label"] = "Name"} });
                     tableRow.Cells.Add(new TableCell() { Text = read[1].ToString(), Attributes = { ["data-label"] = "Mobile"} });
                     tableRow.Cells.Add(new TableCell() { Text = (string)read[2], Attributes = { ["data-label"] = "Email"} });
@@ -96,6 +90,8 @@ namespace EmployeeForm
                         CommandArgument = read[0].ToString()
                     };
                     //saveBtn.Click += Field_TextChanged;
+
+                    
 
                     Panel actionButtons = new Panel() { CssClass = "btn-group gap-2", ID = $"actions_{id}" };
                     actionButtons.Controls.Add(editBtn);

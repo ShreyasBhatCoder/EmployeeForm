@@ -62,9 +62,14 @@
         </div>
         <asp:UpdatePanel runat="server" ID="RefreshTable">
             <ContentTemplate>
-                <asp:Panel runat="server" id="EmpTable"></asp:Panel>
+                <asp:Panel runat="server" id="EmpTable">
+                </asp:Panel>
             </ContentTemplate>
         </asp:UpdatePanel>
+
+
+        <asp:HiddenField ID="OriginalHidden" runat="server" />
+        <asp:HiddenField ID="UpdatedHidden" runat="server" />
 
         
         

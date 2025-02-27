@@ -14,6 +14,7 @@
 <body>
 
     <form id="form1" runat="server">
+        <asp:ScriptManager runat="server"></asp:ScriptManager>
         <asp:Table runat="server" ID="Table1" BorderWidth="1">
             <asp:TableRow>
                 <asp:TableCell contenteditable="true" data-field="Name" data-row="1" onfocus="storeOriginal(this)" oninput="updateHiddenField(this)">
