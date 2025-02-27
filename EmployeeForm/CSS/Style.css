@@ -107,6 +107,11 @@ td:last-child {
 .no-hover:hover {
     background-color: inherit !important;
     color: inherit !important;
+    box-shadow: inset 0px 0px 15px gray;
+}
+
+[contenteditable] {
+    outline: 0px solid transparent;
 }
 
 /* Mobile phones */

@@ -13,6 +13,7 @@ namespace EmployeeForm
     public class EmployeeAPI : EmployeeForm
     {
         int i = 0;
+        Table table = new Table();
         public void Insert(Employee emp, SqlConnection dbConnStr)
         {
             using (SqlCommand cmd = new SqlCommand("exec usp_Insert_Employee @Name, @Mobile, @Email, @DOB, @Designation", dbConnStr))
@@ -30,7 +31,6 @@ namespace EmployeeForm
 
         public Table Fetch(SqlConnection dbConnStr, string name = null)
         {
-            Table table = new Table();
             TableHeaderRow Headers = new TableHeaderRow();
             Headers.TableSection = TableRowSection.TableHeader;
 
@@ -93,8 +93,8 @@ namespace EmployeeForm
                         Text = "Save",
                         CssClass = "btn btn-success replaced",
                         CommandArgument = read[0].ToString()
-                    }; 
-                    
+                    };
+                    saveBtn.Click += Field_TextChanged;
 
                     Panel actionButtons = new Panel() { CssClass = "btn-group gap-2", ID = $"actions_{read[0].ToString()}" };
                     actionButtons.Controls.Add(editBtn);

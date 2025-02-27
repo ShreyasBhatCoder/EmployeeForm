@@ -1,11 +1,16 @@
-﻿const updateBtn = document.createElement("button");
+﻿var originalText = "";
 
-const form1 = document.getElementById("form1");
+function storeOriginalText(element) {
+    originalText = element.innerText; // Store original value
+    document.getElementById('<%= originalText.ClientID %>').value = originalText;
+}
 
-updateBtn.innerText = "Click";
-updateBtn.id = "ClickBtn";
-updateBtn.click = function (event) {
-    __doPostBack("ClickBtn", "");
-};
+function updateChangedText(element) {
+    document.getElementById('<%= updatedText.ClientID %>').value = element.innerText;
+}
 
-form1.appendChild(updateBtn);
+function sendToServer(element) {
+    if (originalText !== element.innerText) {
+        __doPostBack('<%= updatedText.ClientID %>', ''); // Trigger ASP.NET postback
+    }
+}

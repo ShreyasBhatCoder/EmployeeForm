@@ -4,6 +4,10 @@ const fetchBtn = document.getElementById("FetchBtn");
 const submit = document.getElementById("Submit");
 const reset = document.getElementById("Reset");
 
+const actionBtns = [...document.querySelectorAll(".btn-group")].filter(btnGrp => /(^actions)/.test(btnGrp.id) === true);
+const saveBtns = [...document.querySelectorAll(".btn-success")];
+
+const actionToSave = new Map(actionBtns.map((action, save) => [action, saveBtns[save]]));
 
 
 
@@ -52,10 +56,6 @@ fetchBtn.addEventListener("click", function (event) {
     });
 });
 
-const actionBtns = [...document.querySelectorAll(".btn-group")].filter(btnGrp => /(^actions)/.test(btnGrp.id) === true);
-const saveBtns = [...document.querySelectorAll(".btn-success")];
-
-const actionToSave = new Map(actionBtns.map((action, save) => [action, saveBtns[save]]));
 
 
 actionToSave.forEach((save, actions) => {

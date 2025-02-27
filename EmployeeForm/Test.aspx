@@ -14,11 +14,21 @@
 <body>
 
     <form id="form1" runat="server">
-        <asp:ScriptManager runat="server" />
+        <asp:Table runat="server" ID="myTable" BorderWidth="1">
+            <asp:TableRow>
+                <asp:TableCell>
+            <div contenteditable="true" onfocus="storeOriginalText(this)" 
+                 oninput="updateChangedText(this)" onblur="sendToServer(this)">
+                Editable Cell
+            </div>
+                </asp:TableCell>
+            </asp:TableRow>
+        </asp:Table>
 
-        <%--<asp:Button runat="server" ID="Button1" Text="Button1" OnClick="Button1_Click"/>--%>
-        
+        <asp:HiddenField runat="server" ID="originalText" />
+        <asp:HiddenField runat="server" ID="updatedText" />
+
+        <script src="Index.js"></script>
     </form>
-    <script src="Index.js"></script>
 </body>
 </html>

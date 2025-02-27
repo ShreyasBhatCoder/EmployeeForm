@@ -2,7 +2,7 @@ use [EmployeeDB];
 
 
 create table Employees (
-	Name varchar(100) unique,
+	Name varchar(100),
 	Mobile bigint unique check (len(Mobile) = 10),
 	Email varchar(100),
 	DOB date,
@@ -66,7 +66,7 @@ begin
 	if object_id('Employees') is null
 	begin
 		create table Employees (
-			Name varchar(100) unique,
+			Name varchar(100),
 			Mobile bigint unique check (len(Mobile) = 10),
 			Email varchar(100),
 			DOB date,
@@ -118,7 +118,7 @@ begin
 	if object_id('Employees') is null
 	begin
 		create table Employees (
-			Name varchar(100) unique,
+			Name varchar(100),
 			Mobile bigint unique check (len(Mobile) = 10),
 			Email varchar(100),
 			DOB date,
@@ -148,7 +148,7 @@ begin
 		end, Name
 	end
 
-	else if @Name is not null and not exists (select * from Employees where Name = @Name) or object_id('Employees') is null
+	else if @Name is not null and not exists (select * from Employees where Name like '%'+ @Name +'%') or object_id('Employees') is null
 	begin
 		raiserror('Record doesn''t exist', 16, 1);
 	end
@@ -157,7 +157,7 @@ begin
 	begin
 		select * 
 		from Employees 
-		where Name = @Name
+		where Name like '%'+ @Name +'%'
 	end
 end;
 go
@@ -169,10 +169,12 @@ go
 --	@oldVal varchar(100),
 --	@newVal varchar(100)
 --)
---as
+
 --begin
 
 --end
+
+
 --go
 
 
@@ -194,13 +196,12 @@ where Name = 'Sandhya' or Mobile = 9222052650
 
 drop table Employees
 
-exec usp_Insert_Update_Employee 'Shreyas', 9820819316, 'shreyas@gmail.com', '2022-10-02', 'CSE';
-exec usp_Insert_Update_Employee 'Rajesh', 9820589316, 'rajesh@gmail.com', '2022-10-02', 'CSE';
-exec usp_Insert_Update_Employee 'Sandhya', 9222052650, 'sandhya@gmail.com', '2022-10-02', 'CSM';
+exec usp_Insert_Employee 'Shreyas', 9820819316, 'shreyas@gmail.com', '2022-10-02', 'CSE';
+exec usp_Insert_Employee 'Rajesh', 9820589316, 'rajesh@gmail.com', '2022-10-02', 'CSE';
+exec usp_Insert_Employee 'Sandhya', 9222052650, 'sandhya@gmail.com', '2022-10-02', 'CSM';
 
 exec usp_Delete_Employee 'Shreyas';
 exec usp_Get_Employee;
-
 
 
 

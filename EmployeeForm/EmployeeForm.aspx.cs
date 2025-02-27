@@ -115,18 +115,17 @@ namespace EmployeeForm
             ResetFields();
         }
 
-        //protected void Edit_Click(object sender, EventArgs e)
-        //{
-        //    ResetFields();
+        
 
+        protected void Field_TextChanged(object sender, EventArgs e)
+        {
+            TextBox field = (TextBox)sender;
 
-        //    ConnectionParams connection = new ConnectionParams("EmployeeDesktop");
-        //    connection.conn.Open();
-        //    Submit_Click(sender, e);
-        //    connection.conn.Close();
+            string fieldName = field.Attributes["data-label"].ToString();
+            //string old_FieldValue;
 
-        //}
-
+            string new_FieldValue = field.Text;
+        }
 
 
         protected void ResetFields()
