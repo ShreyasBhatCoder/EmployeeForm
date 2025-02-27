@@ -1,4 +1,4 @@
-﻿const inputs = [...document.querySelectorAll("input")].filter(input => input.value !== "Delete" && input.type !== "hidden");
+﻿const inputs = [...document.querySelectorAll("input")].filter(input => input.type === "text" && /(^Text)/.test(input.id));
 const modalBody = document.getElementsByClassName("modal-body")[0];
 const fetchBtn = document.getElementById("FetchBtn");
 const submit = document.getElementById("Submit");
@@ -100,3 +100,5 @@ actionToSave.forEach((save, actions) => {
         toggleElement();
     });
 });
+
+ 

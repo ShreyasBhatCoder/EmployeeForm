@@ -14,21 +14,54 @@
 <body>
 
     <form id="form1" runat="server">
-        <asp:Table runat="server" ID="myTable" BorderWidth="1">
+        <asp:Table runat="server" ID="Table1" BorderWidth="1">
             <asp:TableRow>
-                <asp:TableCell>
-            <div contenteditable="true" onfocus="storeOriginalText(this)" 
-                 oninput="updateChangedText(this)" onblur="sendToServer(this)">
-                Editable Cell
-            </div>
+                <asp:TableCell contenteditable="true" data-field="Name" data-row="1" onfocus="storeOriginal(this)" oninput="updateHiddenField(this)">
+            John Doe
+                </asp:TableCell>
+                <asp:TableCell contenteditable="true" data-field="Age" data-row="1" onfocus="storeOriginal(this)" oninput="updateHiddenField(this)">
+            30
+                </asp:TableCell>
+                <asp:TableCell contenteditable="true" data-field="City" data-row="1" onfocus="storeOriginal(this)" oninput="updateHiddenField(this)">
+            New York
+                </asp:TableCell>
+            </asp:TableRow>
+
+            <asp:TableRow>
+                <asp:TableCell contenteditable="true" data-field="Name" data-row="2" onfocus="storeOriginal(this)" oninput="updateHiddenField(this)">
+            Jane Doe
+                </asp:TableCell>
+                <asp:TableCell contenteditable="true" data-field="Age" data-row="2" onfocus="storeOriginal(this)" oninput="updateHiddenField(this)">
+            28
+                </asp:TableCell>
+                <asp:TableCell contenteditable="true" data-field="City" data-row="2" onfocus="storeOriginal(this)" oninput="updateHiddenField(this)">
+            Los Angeles
+                </asp:TableCell>
+            </asp:TableRow>
+
+            <asp:TableRow>
+                <asp:TableCell contenteditable="true" data-field="Name" data-row="3" onfocus="storeOriginal(this)" oninput="updateHiddenField(this)">
+            Alice Smith
+                </asp:TableCell>
+                <asp:TableCell contenteditable="true" data-field="Age" data-row="3" onfocus="storeOriginal(this)" oninput="updateHiddenField(this)">
+            25
+                </asp:TableCell>
+                <asp:TableCell contenteditable="true" data-field="City" data-row="3" onfocus="storeOriginal(this)" oninput="updateHiddenField(this)">
+            Chicago
                 </asp:TableCell>
             </asp:TableRow>
         </asp:Table>
 
-        <asp:HiddenField runat="server" ID="originalText" />
-        <asp:HiddenField runat="server" ID="updatedText" />
+        <!-- Single Pair of Hidden Fields -->
+        <asp:HiddenField ID="OriginalHidden" runat="server" />
+        <asp:HiddenField ID="UpdatedHidden" runat="server" />
 
-        <script src="Index.js"></script>
+        <asp:Button runat="server" ID="SubmitButton" Text="Submit" OnClick="SubmitButton_Click" />
+
+
+
+
     </form>
+    <script src="Index.js"></script>
 </body>
 </html>

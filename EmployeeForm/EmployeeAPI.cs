@@ -59,18 +59,19 @@ namespace EmployeeForm
                             ["data-command-argument"] = read[0].ToString()
                         }
                     };
-                    tableRow.Cells.Add(new TableCell() { Text = (string)read[0], Attributes = { ["data-label"] = "Name" } });
-                    tableRow.Cells.Add(new TableCell() { Text = read[1].ToString(), Attributes = { ["data-label"] = "Mobile" } });
-                    tableRow.Cells.Add(new TableCell() { Text = (string)read[2], Attributes = { ["data-label"] = "Email" } });
-                    tableRow.Cells.Add(new TableCell() { Text = Convert.ToDateTime(read[3]).ToString("dd-MM-yyyy"), Attributes = { ["data-label"] = "Date of Birth" } });
-                    tableRow.Cells.Add(new TableCell() { Text = (string)read[4], Attributes = { ["data-label"] = "Designation" } });
+                    i++;
+                    tableRow.Cells.Add(new TableCell() { Text = (string)read[0], Attributes = { ["data-label"] = "Name"} });
+                    tableRow.Cells.Add(new TableCell() { Text = read[1].ToString(), Attributes = { ["data-label"] = "Mobile"} });
+                    tableRow.Cells.Add(new TableCell() { Text = (string)read[2], Attributes = { ["data-label"] = "Email"} });
+                    tableRow.Cells.Add(new TableCell() { Text = Convert.ToDateTime(read[3]).ToString("dd-MM-yyyy"), Attributes = { ["data-label"] = "Date of Birth"} });
+                    tableRow.Cells.Add(new TableCell() { Text = (string)read[4], Attributes = { ["data-label"] = "Designation"} });
 
 
-
+                    string id = Guid.NewGuid().ToString();
 
                     Button deleteBtn = new Button
                     {
-                        ID = $"{read[0].ToString()}_Delete",
+                        ID = $"{id}_Delete",
                         Text = "Delete",
                         CssClass = "btn btn-danger",
                         CommandArgument = read[0].ToString()
@@ -80,7 +81,7 @@ namespace EmployeeForm
 
                     Button editBtn = new Button
                     {
-                        ID = $"{read[0].ToString()}_Edit",
+                        ID = $"{id}_Edit",
                         Text = "Edit",
                         CssClass = "btn btn-secondary",
                         CommandArgument = read[0].ToString()
@@ -89,14 +90,14 @@ namespace EmployeeForm
 
                     Button saveBtn = new Button
                     {
-                        ID = $"{read[0].ToString()}_Save",
+                        ID = $"{id}_Save",
                         Text = "Save",
                         CssClass = "btn btn-success replaced",
                         CommandArgument = read[0].ToString()
                     };
-                    saveBtn.Click += Field_TextChanged;
+                    //saveBtn.Click += Field_TextChanged;
 
-                    Panel actionButtons = new Panel() { CssClass = "btn-group gap-2", ID = $"actions_{read[0].ToString()}" };
+                    Panel actionButtons = new Panel() { CssClass = "btn-group gap-2", ID = $"actions_{id}" };
                     actionButtons.Controls.Add(editBtn);
                     actionButtons.Controls.Add(deleteBtn);
 

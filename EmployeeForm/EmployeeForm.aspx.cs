@@ -59,16 +59,7 @@ namespace EmployeeForm
 
             } catch(Exception e)
             {
-                if(IsPostBack)
-                {
-                    string errorMsg = HttpUtility.JavaScriptStringEncode(e.Message);
-                    string script = $$"""
-                            document.getElementsByClassName('modal-body')[0].innerHTML = '{{errorMsg}}';
-                            (new bootstrap.Modal(document.getElementById('staticBackdrop'))).show();
-                            console.log('{{errorMsg}}');
-                        """;
-                    ScriptManager.RegisterStartupScript(this, this.GetType(), Guid.NewGuid().ToString(), script, true);
-                }
+                InvokeErrorModal(e.Message);
             }
         }
 
@@ -92,15 +83,7 @@ namespace EmployeeForm
             }
             catch (Exception ex)
             {
-                if (IsPostBack)
-                {
-                    string errorMsg = HttpUtility.JavaScriptStringEncode(ex.Message);
-                    string script = $$"""
-                            document.getElementsByClassName('modal-body')[0].innerHTML = '{{errorMsg}}';
-                            (new bootstrap.Modal(document.getElementById('staticBackdrop'))).show();
-                        """;
-                    ScriptManager.RegisterStartupScript(this, this.GetType(), Guid.NewGuid().ToString(), script, true);
-                }
+                InvokeErrorModal(ex.Message);
             }
         }
 
@@ -117,16 +100,20 @@ namespace EmployeeForm
 
         
 
-        protected void Field_TextChanged(object sender, EventArgs e)
+        
+
+        private void InvokeErrorModal(string message)
         {
-            TextBox field = (TextBox)sender;
-
-            string fieldName = field.Attributes["data-label"].ToString();
-            //string old_FieldValue;
-
-            string new_FieldValue = field.Text;
+            if (IsPostBack)
+            {
+                string errorMsg = HttpUtility.JavaScriptStringEncode(message);
+                string script = $$"""
+                            document.getElementsByClassName('modal-body')[0].innerHTML = '{{errorMsg}}';
+                            (new bootstrap.Modal(document.getElementById('staticBackdrop'))).show();
+                        """;
+                ScriptManager.RegisterStartupScript(this, this.GetType(), Guid.NewGuid().ToString(), script, true);
+            }
         }
-
 
         protected void ResetFields()
         {
