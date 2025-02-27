@@ -91,7 +91,7 @@ namespace EmployeeForm
                     {
                         ID = $"{read[0].ToString()}_Save",
                         Text = "Save",
-                        CssClass = "btn btn-secondary replaced",
+                        CssClass = "btn btn-success replaced",
                         CommandArgument = read[0].ToString()
                     }; 
                     
@@ -126,5 +126,10 @@ namespace EmployeeForm
             }
         }
 
+
+        public void Update(SqlConnection dbConnStr)
+        {
+
+        }
     }
 }

@@ -104,6 +104,11 @@ td:last-child {
     display: none;
 }
 
+.no-hover:hover {
+    background-color: inherit !important;
+    color: inherit !important;
+}
+
 /* Mobile phones */
 @media only screen and (max-width: 550px) {
     table,

@@ -163,6 +163,18 @@ end;
 go
 
 
+--go
+--create procedure usp_Update_Employee (
+--	@Field varchar(100),
+--	@oldVal varchar(100),
+--	@newVal varchar(100)
+--)
+--as
+--begin
+
+--end
+--go
+
 
 
 
