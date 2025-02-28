@@ -24,10 +24,14 @@ namespace EmployeeForm
 
                 Table newTable = connection.api.Fetch(connection.conn);
 
+
                 EmpTable.Controls.Add(newTable);
+
                 connection.conn.Close();
             }
         }
+
+        
 
         protected void Submit_Click(object sender, EventArgs er)
         {
@@ -47,7 +51,12 @@ namespace EmployeeForm
 
                 connection.api.Insert(employee, connection.conn);
 
-                ResetFields();
+                TextName.Text = "";
+                TextMobile.Text = "";
+                TextEmail.Text = "";
+                TextDOB.Text = "";
+                TextDesignation.Text = "";
+                FetchEmp.Text = "";
 
                 EmpTable.Controls.Clear();
                 empTable = connection.api.Fetch(connection.conn);
@@ -55,20 +64,35 @@ namespace EmployeeForm
                 connection.conn.Close();
 
 
-            } catch(Exception e)
+            }
+            catch (Exception e)
             {
-                InvokeErrorModal(e.Message);
+                if (IsPostBack)
+                {
+                    string errorMsg = HttpUtility.JavaScriptStringEncode(e.Message);
+                    string script = $$"""
+                            document.getElementsByClassName('modal-body')[0].innerHTML = '{{errorMsg}}';
+                            (new bootstrap.Modal(document.getElementById('staticBackdrop'))).show();
+                            console.log('{{errorMsg}}');
+                        """;
+                    ScriptManager.RegisterStartupScript(this, this.GetType(), Guid.NewGuid().ToString(), script, true);
+                }
             }
         }
 
         protected void Reset_Click(object sender, EventArgs e)
         {
-            ResetFields();
+            TextName.Text = "";
+            TextMobile.Text = "";
+            TextEmail.Text = "";
+            TextDOB.Text = "";
+            TextDesignation.Text = "";
+            FetchEmp.Text = "";
         }
         protected void Fetch_Click(object sender, EventArgs e)
         {
             EmpTable.Controls.Clear();
-            ConnectionParams connection = new ConnectionParams("EmployeeDesktop"); 
+            ConnectionParams connection = new ConnectionParams("EmployeeDesktop");
             try
             {
                 connection.conn.Open();
@@ -81,7 +105,15 @@ namespace EmployeeForm
             }
             catch (Exception ex)
             {
-                InvokeErrorModal(ex.Message);
+                if (IsPostBack)
+                {
+                    string errorMsg = HttpUtility.JavaScriptStringEncode(ex.Message);
+                    string script = $$"""
+                            document.getElementsByClassName('modal-body')[0].innerHTML = '{{errorMsg}}';
+                            (new bootstrap.Modal(document.getElementById('staticBackdrop'))).show();
+                        """;
+                    ScriptManager.RegisterStartupScript(this, this.GetType(), Guid.NewGuid().ToString(), script, true);
+                }
             }
         }
 
@@ -93,34 +125,11 @@ namespace EmployeeForm
             connection.api.Delete(connection.conn, deleteButton.CommandArgument.ToString());
             connection.conn.Close();
 
-            ResetFields();
+            
         }
+
+
 
         
-
-        
-
-        private void InvokeErrorModal(string message)
-        {
-            if (IsPostBack)
-            {
-                string errorMsg = HttpUtility.JavaScriptStringEncode(message);
-                string script = $$"""
-                            document.getElementsByClassName('modal-body')[0].innerHTML = '{{errorMsg}}';
-                            (new bootstrap.Modal(document.getElementById('staticBackdrop'))).show();
-                        """;
-                ScriptManager.RegisterStartupScript(this, this.GetType(), Guid.NewGuid().ToString(), script, true);
-            }
-        }
-
-        protected void ResetFields()
-        {
-            TextName.Text = "";
-            TextMobile.Text = "";
-            TextEmail.Text = "";
-            TextDOB.Text = "";
-            TextDesignation.Text = "";
-            FetchEmp.Text = "";
-        }
     }
 }

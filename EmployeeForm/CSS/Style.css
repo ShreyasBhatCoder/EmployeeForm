@@ -70,6 +70,7 @@ tr:hover {
     transition: 0.3s;
     color: white;
 }
+
 td:last-child {
     text-align: center;
 }
@@ -130,9 +131,9 @@ td:last-child {
         position: unset;
     }
 
-     thead tr {
+    thead tr {
         display: none;
-     }
+    }
 
     tr {
         border: 1px solid black;
@@ -143,17 +144,19 @@ td:last-child {
         position: relative;
         padding-left: 50%;
     }
+
         td:last-child {
             padding: 5px;
             text-align: center;
             padding-left: 0;
         }
-    td:before {
-        position: absolute;
-        left: 6px;
-        content: attr(data-label);
-        font-weight: bold;
-    }
+
+        td:before {
+            position: absolute;
+            left: 6px;
+            content: attr(data-label);
+            font-weight: bold;
+        }
 
     #formDiv {
         width: 100%;
@@ -174,8 +177,6 @@ td:last-child {
     #FetchEmp {
         width: 100%;
     }
-
-
 }
 
 /* Tablets */
@@ -185,6 +186,7 @@ td:last-child {
         left: 10%;
         transform: none;
     }
+
     table {
         width: 100%;
         position: unset;
@@ -204,13 +206,14 @@ td:last-child {
     #formDiv {
         width: 65%;
         left: 17%;
-        transform: none; 
+        transform: none;
     }
 
     table {
         width: 100%;
         position: unset;
     }
+
     #form-actions {
         margin: 10px 35px 0px;
     }
@@ -218,7 +221,6 @@ td:last-child {
     .Fetch {
         margin: 20px 0px 50px 0px;
     }
-
 }
 
 /* Medium desktop screens */
@@ -226,7 +228,7 @@ td:last-child {
     #formDiv {
         width: 50%;
         left: 23%;
-        transform: none; 
+        transform: none;
     }
 
     table {
@@ -241,6 +243,4 @@ td:last-child {
     .Fetch {
         margin: 20px 0px 50px 0px;
     }
-
 }
-

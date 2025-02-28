@@ -43,29 +43,34 @@ namespace EmployeeForm
 
             table.Rows.Add(Headers);
 
-  
+
 
             using (SqlCommand command = new SqlCommand($"exec dbo.usp_Get_Employee {name}", dbConnStr))
             {
                 EmployeeForm obj = new EmployeeForm();
-                
+
                 SqlDataReader read = command.ExecuteReader();
-                while(read.Read())
+                while (read.Read())
                 {
-                    var tableRow = new TableRow(){ Attributes = { ["data-row"] = $"{++i}" } };
+                    var tableRow = new TableRow()
+                    {
+                        Attributes =
+                        {
+                            ["data-command-argument"] = read[0].ToString()
+                        }
+                    };
+                    tableRow.Cells.Add(new TableCell() { Text = (string)read[0], Attributes = { ["data-label"] = "Name" } });
+                    tableRow.Cells.Add(new TableCell() { Text = read[1].ToString(), Attributes = { ["data-label"] = "Mobile" } });
+                    tableRow.Cells.Add(new TableCell() { Text = (string)read[2], Attributes = { ["data-label"] = "Email" } });
+                    tableRow.Cells.Add(new TableCell() { Text = Convert.ToDateTime(read[3]).ToString("dd-MM-yyyy"), Attributes = { ["data-label"] = "Date of Birth" } });
+                    tableRow.Cells.Add(new TableCell() { Text = (string)read[4], Attributes = { ["data-label"] = "Designation" } });
 
-                    tableRow.Cells.Add(new TableCell() { Text = (string)read[0], Attributes = { ["data-label"] = "Name"} });
-                    tableRow.Cells.Add(new TableCell() { Text = read[1].ToString(), Attributes = { ["data-label"] = "Mobile"} });
-                    tableRow.Cells.Add(new TableCell() { Text = (string)read[2], Attributes = { ["data-label"] = "Email"} });
-                    tableRow.Cells.Add(new TableCell() { Text = Convert.ToDateTime(read[3]).ToString("dd-MM-yyyy"), Attributes = { ["data-label"] = "Date of Birth"} });
-                    tableRow.Cells.Add(new TableCell() { Text = (string)read[4], Attributes = { ["data-label"] = "Designation"} });
 
 
-                    string id = Guid.NewGuid().ToString();
 
                     Button deleteBtn = new Button
                     {
-                        ID = $"{id}_Delete",
+                        ID = $"{read[0].ToString()}_Delete",
                         Text = "Delete",
                         CssClass = "btn btn-danger",
                         CommandArgument = read[0].ToString()
@@ -75,7 +80,7 @@ namespace EmployeeForm
 
                     Button editBtn = new Button
                     {
-                        ID = $"{id}_Edit",
+                        ID = $"{read[0].ToString()}_Edit",
                         Text = "Edit",
                         CssClass = "btn btn-secondary",
                         CommandArgument = read[0].ToString()
@@ -84,16 +89,14 @@ namespace EmployeeForm
 
                     Button saveBtn = new Button
                     {
-                        ID = $"{id}_Save",
+                        ID = $"{read[0].ToString()}_Save",
                         Text = "Save",
                         CssClass = "btn btn-success replaced",
                         CommandArgument = read[0].ToString()
                     };
                     //saveBtn.Click += Field_TextChanged;
 
-                    
-
-                    Panel actionButtons = new Panel() { CssClass = "btn-group gap-2", ID = $"actions_{id}" };
+                    Panel actionButtons = new Panel() { CssClass = "btn-group gap-2", ID = $"actions_{read[0].ToString()}" };
                     actionButtons.Controls.Add(editBtn);
                     actionButtons.Controls.Add(deleteBtn);
 
@@ -112,11 +115,11 @@ namespace EmployeeForm
             return table;
         }
 
-        
+
 
         public void Delete(SqlConnection dbConnStr, string name)
         {
-            using(SqlCommand cmd = new SqlCommand("exec dbo.usp_Delete_Employee @Name", dbConnStr))
+            using (SqlCommand cmd = new SqlCommand("exec dbo.usp_Delete_Employee @Name", dbConnStr))
             {
                 cmd.Parameters.Add(new SqlParameter("@Name", SqlDbType.VarChar)).Value = name;
                 cmd.ExecuteNonQuery();

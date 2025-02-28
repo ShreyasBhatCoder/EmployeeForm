@@ -105,15 +105,6 @@ namespace EmployeeForm
         protected global::System.Web.UI.WebControls.Button FetchBtn;
 
         /// <summary>
-        /// RefreshTable control.
-        /// </summary>
-        /// <remarks>
-        /// Auto-generated field.
-        /// To modify move field declaration from designer file to code-behind file.
-        /// </remarks>
-        protected global::System.Web.UI.UpdatePanel RefreshTable;
-
-        /// <summary>
         /// EmpTable control.
         /// </summary>
         /// <remarks>

@@ -200,7 +200,7 @@ exec usp_Insert_Employee 'Shreyas', 9820819316, 'shreyas@gmail.com', '2022-10-02
 exec usp_Insert_Employee 'Rajesh', 9820589316, 'rajesh@gmail.com', '2022-10-02', 'CSE';
 exec usp_Insert_Employee 'Sandhya', 9222052650, 'sandhya@gmail.com', '2022-10-02', 'CSM';
 
-exec usp_Delete_Employee 'Shreyas';
+exec usp_Delete_Employee 'Rajesh';
 exec usp_Get_Employee;
 
 
