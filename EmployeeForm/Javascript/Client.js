@@ -58,54 +58,10 @@ fetchBtn.addEventListener("click", function (event) {
 });
 
 
-
-//actionToSave.forEach((save, actions) => {
-//    var edit = actions.querySelector("input");
-//    var parentRow = edit.closest("tr[data-command-argument]");
-//    var tds = parentRow.querySelectorAll("td[data-label]");
-
-//    var isEditable = tds[0].getAttribute("contenteditable") === "true"; // Initially false
-
-//    function toggleElement() {
-//        isEditable = !isEditable;  // Now it properly toggles
-
-//        tds.forEach(td => {
-//            td.setAttribute("contenteditable", isEditable);
-//        });
-
-//        if (isEditable) {
-//            actions.classList.add("replaced");
-//            save.classList.remove("replaced");
-
-//            parentRow.classList.add("focused", "no-hover");
-
-//            document.querySelectorAll("tr:not(.focused)").forEach(row => row.classList.add("blurred"));
-
-//        } else {
-//            actions.classList.remove("replaced");
-//            save.classList.add("replaced");
-//            parentRow.classList.remove("no-hover");
-//            document.querySelectorAll("tr").forEach(row => row.classList.remove("focused", "blurred"));
-//        }
-//    }
-
-//    edit.addEventListener("click", function (event) {
-//        event.preventDefault();
-//        event.stopPropagation();
-//        toggleElement();
-//    });
-
-//    // Move this outside to prevent multiple event bindings
-//    save.addEventListener("click", function (event) {
-//        event.preventDefault();
-//        toggleElement();
-//    });
-//});
-
 actionToSave.forEach((save, actions) => {
     var edit = actions.querySelector("input");
     var deleteBtn = actions.querySelector(".delete"); // Ensure you reference the delete button
-    var parentRow = edit.closest("tr[data-command-argument]");
+    var parentRow = edit.closest("tr[data-row]");
     var tds = parentRow.querySelectorAll("td[data-label]");
 
     var isEditable = false; // Ensure it always starts as false
@@ -159,16 +115,37 @@ actionToSave.forEach((save, actions) => {
 });
 
 
-function resetTableState() {
-    document.querySelectorAll("tr").forEach(row => row.classList.remove("focused", "blurred"));
+let originalData = {}; // To store original values
+let updatedData = {};  // To store updated values
+
+
+function storeOriginal(element) {
+    let row = element.getAttribute("data-row");
+    let field = element.getAttribute("data-label");
+
+    if (!originalData[row]) {
+        originalData[row] = {};
+    }
+
+    if (!originalData[row][field]) {
+        originalData[row][field] = element.innerText.trim();
+        document.getElementById('OriginalHidden').value = JSON.stringify(originalData);
+    }
+
 }
 
-// Monitor table updates (use this if you're updating via AJAX or Partial Postbacks)
-document.addEventListener("DOMContentLoaded", resetTableState);
+function updateHiddenField(element) {
+    let row = element.getAttribute("data-row");
+    let field = element.getAttribute("data-label");
 
-// Also run this when any button inside "actions" is clicked (just in case)
-document.querySelectorAll(".actions").forEach(action => {
-    action.addEventListener("click", resetTableState);
-});
+    if (!updatedData[row]) {
+        updatedData[row] = {};
+    }
+
+    updatedData[row][field] = element.innerText.trim();
+    document.getElementById('UpdatedHidden').value = JSON.stringify(updatedData);
+}
+
+
 
 

@@ -12,21 +12,22 @@ namespace EmployeeForm
 {
     public class EmployeeAPI : EmployeeForm
     {
-        int i = 0;
+        //int i = 0;
         Table table = new Table();
         public void Insert(Employee emp, SqlConnection dbConnStr)
         {
-            using (SqlCommand cmd = new SqlCommand("exec usp_Insert_Employee @Name, @Mobile, @Email, @DOB, @Designation", dbConnStr))
+            using (SqlCommand cmd = new SqlCommand("EXEC usp_Insert_Employee @Name, @Mobile, @Email, @DOB, @Designation", dbConnStr))
             {
                 cmd.Parameters.Add("@Name", SqlDbType.VarChar).Value = emp.Name;
                 cmd.Parameters.Add("@Mobile", SqlDbType.BigInt).Value = emp.Mobile;
                 cmd.Parameters.Add("@Email", SqlDbType.VarChar).Value = emp.Email;
-                cmd.Parameters.Add("@DOb", SqlDbType.Date).Value = emp.DOB;
+                cmd.Parameters.Add("@DOB", SqlDbType.Date).Value = emp.DOB;
                 cmd.Parameters.Add("@Designation", SqlDbType.VarChar).Value = emp.Designation;
 
                 cmd.ExecuteNonQuery();
             }
         }
+
 
 
         public Table Fetch(SqlConnection dbConnStr, string name = null)
@@ -52,13 +53,8 @@ namespace EmployeeForm
                 SqlDataReader read = command.ExecuteReader();
                 while (read.Read())
                 {
-                    var tableRow = new TableRow()
-                    {
-                        Attributes =
-                        {
-                            ["data-command-argument"] = read[0].ToString()
-                        }
-                    };
+                    var tableRow = new TableRow(){ Attributes = { ["data-row"] = $"{read[0]}" } };
+
                     tableRow.Cells.Add(new TableCell() { Text = (string)read[0], Attributes = { ["data-label"] = "Name" } });
                     tableRow.Cells.Add(new TableCell() { Text = read[1].ToString(), Attributes = { ["data-label"] = "Mobile" } });
                     tableRow.Cells.Add(new TableCell() { Text = (string)read[2], Attributes = { ["data-label"] = "Email" } });
@@ -70,33 +66,33 @@ namespace EmployeeForm
 
                     Button deleteBtn = new Button
                     {
-                        ID = $"{read[0].ToString()}_Delete",
+                        ID = $"{read[1].ToString()}_Delete",
                         Text = "Delete",
                         CssClass = "btn btn-danger",
-                        CommandArgument = read[0].ToString()
+                        CommandArgument = read[1].ToString()
                     };
 
                     deleteBtn.Click += Delete_Click;
 
                     Button editBtn = new Button
                     {
-                        ID = $"{read[0].ToString()}_Edit",
+                        ID = $"{read[1].ToString()}_Edit",
                         Text = "Edit",
                         CssClass = "btn btn-secondary",
-                        CommandArgument = read[0].ToString()
+                        CommandArgument = read[1].ToString()
                     };
 
 
                     Button saveBtn = new Button
                     {
-                        ID = $"{read[0].ToString()}_Save",
+                        ID = $"{read[1].ToString()}_Save",
                         Text = "Save",
                         CssClass = "btn btn-success replaced",
-                        CommandArgument = read[0].ToString()
+                        CommandArgument = read[1].ToString()
                     };
                     //saveBtn.Click += Field_TextChanged;
 
-                    Panel actionButtons = new Panel() { CssClass = "btn-group gap-2", ID = $"actions_{read[0].ToString()}" };
+                    Panel actionButtons = new Panel() { CssClass = "btn-group gap-2", ID = $"actions_{read[1].ToString()}" };
                     actionButtons.Controls.Add(editBtn);
                     actionButtons.Controls.Add(deleteBtn);
 
